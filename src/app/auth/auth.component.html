@@ -1,0 +1,42 @@
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <h2 id="h2-text"> Event Manager </h2>
+        <form
+            [formGroup]="signInForm"
+            (ngSubmit)="onFormSubmit()"
+        >
+            <div>
+                <label class="fadeIn first" for="email">Email</label>
+                <input
+                    type="text"
+                    id="email"
+                    class="fadeIn first"
+                    formControlName="email"
+                    placeholder="email">
+                <p
+                    class="error-p"
+                    *ngIf="!signInForm.get('email').valid && signInForm.get('email').touched"
+                >Email field is required</p>
+            </div>
+            <div>
+                <label class="fadeIn second" for="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    class="fadeIn second"
+                    formControlName="password"
+                    placeholder="password">
+                <p
+                    class="error-p"
+                    *ngIf="!signInForm.get('password').valid && signInForm.get('password').touched"
+                >Password field is required</p>
+            </div>
+            <button
+                type="submit"
+                [disabled]="!signInForm.valid"
+                class="fadeIn third">
+                Log In
+            </button>
+        </form>
+    </div>
+</div>
