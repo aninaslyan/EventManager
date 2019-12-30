@@ -88,8 +88,12 @@ input[type=text]::placeholder, input[type=password]::placeholder {
     color: #cccccc;
 }
 
-input + .error-p {
+.error-p {
     color: red;
+}
+
+input + .error-p {
+    /*color: red;*/
     font-family: sans-serif;
     text-align: left;
     margin: 0 0 10% 8%;

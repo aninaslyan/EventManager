@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
+import { AuthService } from './auth.service';
+
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
@@ -8,8 +10,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class AuthComponent implements OnInit {
   signInForm: FormGroup;
+  errorRes: string;
 
-  constructor() {
+  constructor(private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -20,6 +23,13 @@ export class AuthComponent implements OnInit {
   }
 
   onFormSubmit() {
-    console.log(this.signInForm);
+    const formValue = this.signInForm.value;
+    this.authService.logIn(formValue.email, formValue.password)
+        .subscribe(resData => {
+          console.log(resData);
+          // todo this.router.navigate('/eventsGrid');
+        }, error => {
+          this.errorRes = error;
+        });
   }
 }
