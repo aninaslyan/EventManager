@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { Router } from '@angular/router';
+import Cookies from 'js-cookie';
 
 import { environment } from '../../environments/environment';
-import { throwError } from 'rxjs';
 
 export interface IAuthResponseData {
   token: string;
@@ -23,7 +25,7 @@ export interface IUserData {
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   private static handleError(errorRes: HttpErrorResponse) {
@@ -44,8 +46,7 @@ export class AuthService {
   }
 
   private static handleAuthentication(token: string) {
-    // todo store token inside Cookies
-    console.log(token);
+    Cookies.set('token', token);
   }
 
   logIn(email: string, password: string) {
@@ -53,10 +54,22 @@ export class AuthService {
       email,
       password
     })
-      .pipe(catchError(AuthService.handleError),
+      .pipe(
+          catchError(AuthService.handleError),
           tap(resData => {
             AuthService.handleAuthentication(resData.token);
           })
       );
+  }
+
+  autoLogIn() {
+    if (Cookies.get('token')) {
+      this.router.navigate(['/events-grid']);
+    }
+  }
+
+  logOut() {
+    Cookies.remove('token');
+    this.router.navigate(['/login']);
   }
 }
