@@ -13,6 +13,11 @@ body {
     background-color: #eaeaea;
 }
 
+body, ul {
+    margin: 0;
+    padding: 0;
+}
+
 a {
     color: #92badd;
     display: inline-block;

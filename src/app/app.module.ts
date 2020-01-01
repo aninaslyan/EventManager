@@ -6,13 +6,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
-import { EventsGridComponent } from './events-grid/events-grid.component';
+import { EventsLayoutComponent } from './events-layout/events-layout.component';
+import { EventsGridComponent } from './events-layout/events-grid/events-grid.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthComponent,
-    EventsGridComponent
+    EventsLayoutComponent,
+    EventsGridComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
