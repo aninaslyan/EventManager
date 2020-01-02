@@ -27,7 +27,6 @@ export class AuthComponent implements OnInit {
     const formValue = this.signInForm.value;
     this.authService.logIn(formValue.email, formValue.password)
         .subscribe(resData => {
-          console.log(resData);
           this.router.navigate(['/events-grid']);
         }, error => {
           this.errorRes = error;
