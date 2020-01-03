@@ -49,13 +49,13 @@ export class AuthService {
   }
 
 
-  private handleAuthentication(name: string, surname: string, token: string) {
-    const user = new User(token, name, surname);
+  private handleAuthentication(name: string, surname: string, token: string, isAdmin: boolean) {
+    const user = new User(token, name, surname, isAdmin);
     this.user.next(user);
     Cookies.set('token', token);
   }
 
-  getDataFromToken(token: string) {
+  getUserDataFromToken(token: string) {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const jsonPayload = decodeURIComponent(
@@ -68,7 +68,7 @@ export class AuthService {
     try {
       return JSON.parse(jsonPayload);
     } catch (e) {
-      // this.logOut(); if not guard was used
+      // this.logOut(); if no guard was used
       return null;
     }
   }
@@ -77,6 +77,7 @@ export class AuthService {
     const tokenRegExp = /^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/g;
     if (tokenRegExp.test(token)) {
       const user: User = this.makeUserFromToken(token);
+      // todo user.name, user.srName is not proper to check (can be another type of data to get back)
       return user && user.name && user.srName;
     }
     return false;
@@ -84,10 +85,10 @@ export class AuthService {
 
   makeUserFromToken(token: string) {
     let loadedUser: IUserData;
-    loadedUser = this.getDataFromToken(token);
+    loadedUser = this.getUserDataFromToken(token);
 
     if (loadedUser) {
-      return new User(token, loadedUser.name, loadedUser.srName);
+      return new User(token, loadedUser.name, loadedUser.srName, loadedUser.isAdmin);
     } else {
       return null;
     }
@@ -101,14 +102,13 @@ export class AuthService {
       .pipe(
           catchError(AuthService.handleError),
           tap(resData => {
-            this.handleAuthentication(resData.user.name, resData.user.srName, resData.token);
+            this.handleAuthentication(resData.user.name, resData.user.srName, resData.token, resData.user.isAdmin);
           })
       );
   }
 
   autoLogIn() {
     let user: User;
-
     const token = Cookies.get('token');
 
     if (this.isAuthenticated()) {
@@ -119,8 +119,20 @@ export class AuthService {
   }
 
   isAuthenticated() {
+    // todo read token from this.user after all, duplication with autoLogin functionality
     const token = Cookies.get('token');
     return !!token && this.isTokenValid(token);
+  }
+
+  isUserAdmin() {
+    let isAdmin = false;
+
+    this.user.subscribe(user => {
+      if (user) {
+        isAdmin = user.isAdmin;
+      }
+    });
+    return isAdmin;
   }
 
   logOut() {

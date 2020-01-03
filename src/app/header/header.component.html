@@ -1,10 +1,11 @@
 <nav>
     <ul class="menu">
         <li>{{userName}}</li>
-        <!-- Make this dropdown, not visible for noAdmin user -->
-<!--        <li>-->
-<!--            <a>Events</a>-->
-<!--        </li>-->
+        <li
+            *ngIf="isUserAdmin"
+        >
+            <a>Events</a>
+        </li>
     </ul>
     <button
         (click)="onLogOut()"
