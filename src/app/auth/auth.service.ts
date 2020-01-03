@@ -48,11 +48,11 @@ export class AuthService {
     return throwError(errorMessage);
   }
 
-
   private handleAuthentication(name: string, surname: string, token: string, isAdmin: boolean) {
     const user = new User(token, name, surname, isAdmin);
     this.user.next(user);
     Cookies.set('token', token);
+    this.router.navigate(['/events-grid']);
   }
 
   getUserDataFromToken(token: string) {
@@ -78,7 +78,7 @@ export class AuthService {
     if (tokenRegExp.test(token)) {
       const user: User = this.makeUserFromToken(token);
       // todo user.name, user.srName is not proper to check (can be another type of data to get back)
-      return user && user.name && user.srName;
+      return !!user && !!user.name && !!user.srName;
     }
     return false;
   }
@@ -114,7 +114,6 @@ export class AuthService {
     if (this.isAuthenticated()) {
       user = this.makeUserFromToken(token);
       this.user.next(user);
-      this.router.navigate(['/events-grid']);
     }
   }
 
@@ -124,7 +123,7 @@ export class AuthService {
     return !!token && this.isTokenValid(token);
   }
 
-  isUserAdmin() {
+  isAdmin() {
     let isAdmin = false;
 
     this.user.subscribe(user => {

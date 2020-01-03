@@ -16,7 +16,7 @@ nav ul {
     display: block;
 }
 
-nav button {
+.nav-button {
     margin-right: 10px;
     color: #fff;
     background-color: #39ace7;
@@ -36,7 +36,7 @@ nav button {
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
-nav button:hover {
+.nav-button:hover {
     background-color: #3396c9;
     border-color: #3290c0;
 }
@@ -62,4 +62,9 @@ nav button:hover {
 
 .menu li a {
     text-decoration: none;
+}
+
+/* Dropdown */
+.dropbtn {
+    background-color: #fff;
 }

@@ -1,13 +1,20 @@
 <nav>
     <ul class="menu">
         <li>{{userName}}</li>
-        <li
+        <!-- todo should be replaced with clickable directive -->
+        <div
             *ngIf="isUserAdmin"
+            class="dropdown"
         >
-            <a>Events</a>
-        </li>
+            <button class="dropbtn">Events</button>
+            <div class="dropdown-content">
+                <a routerLink="/events-grid">Grid</a>
+                <a routerLink="/events-table">Table</a>
+            </div>
+        </div>
     </ul>
     <button
+        class="nav-button"
         (click)="onLogOut()"
     >Log Out
     </button>

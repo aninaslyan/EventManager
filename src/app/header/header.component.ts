@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
             this.isAuthenticated = !!user;
             this.userName = `${user.name} ${user.srName}`;
 
-            this.isUserAdmin = this.authService.isUserAdmin();
+            this.isUserAdmin = this.authService.isAdmin();
           }
         });
   }
