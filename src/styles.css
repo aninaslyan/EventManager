@@ -77,3 +77,8 @@ button, input[type='submit'], input[type='button'] {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
+/* error */
+.error-p {
+    color: red;
+}

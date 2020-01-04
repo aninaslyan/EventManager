@@ -1,4 +1,12 @@
-<h2>Events Grid page</h2>
+<!-- todo use loading, show this when there is no event-->
+<!--<p-->
+<!--    *ngIf="events.length === 0">-->
+<!--    There is no event to show-->
+<!--</p>-->
+<p
+    class="error-p"
+    *ngIf="error"
+>An error occurred</p>
 <div
     *ngFor="let event of events"
 >
