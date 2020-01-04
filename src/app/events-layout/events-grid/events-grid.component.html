@@ -1,1 +1,7 @@
-<p>Events Grid page</p>
+<h2>Events Grid page</h2>
+<div
+    *ngFor="let event of events"
+>
+    <p>{{event.name}}</p>
+    <p>{{event.description}}</p>
+</div>

@@ -73,6 +73,11 @@ export class AuthService {
     }
   }
 
+  getUserToken() {
+    // todo try to get token from user: BehaviorSubject, this is more secure
+    return Cookies.get('token');
+  }
+
   isTokenValid(token: string) {
     const tokenRegExp = /^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/g;
     if (tokenRegExp.test(token)) {
