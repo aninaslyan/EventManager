@@ -1,0 +1,61 @@
+/* todo improve all rem */
+/* todo use similar styles for event table */
+.main {
+    display: block;
+}
+
+.container {
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: 4%;
+    margin-bottom: 5%;
+}
+
+.col {
+    position: relative;
+    max-width: 28%;
+    margin-top: 5%;
+    margin-left: 5%;
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, .125);
+    border-radius: .25rem;
+}
+
+.shadow-sm {
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+}
+
+.card-img-top {
+    width: 100%;
+    border-top-left-radius: calc(.25rem - 1px);
+    border-top-right-radius: calc(.25rem - 1px);
+}
+
+.card-body {
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+
+.card-title {
+    margin-bottom: .75rem;
+}
+
+.card-subtitle {
+    margin-top: -.375rem;
+    margin-bottom: 1.5rem;
+    color: #6c757d;
+}

@@ -1,15 +1,28 @@
-<!-- todo use loading, show this when there is no event-->
+<!-- todo use loading, show this when there is no event -->
 <!--<p-->
 <!--    *ngIf="events.length === 0">-->
 <!--    There is no event to show-->
 <!--</p>-->
-<p
-    class="error-p"
-    *ngIf="error"
->An error occurred</p>
-<div
-    *ngFor="let event of events"
->
-    <p>{{event.name}}</p>
-    <p>{{event.description}}</p>
+<!--<p-->
+<!--    class="error-p"-->
+<!--    *ngIf="error"-->
+<!--&gt;An error occurred</p>-->
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col" *ngFor="let event of events">
+                <div class="card shadow-sm">
+                    <!-- https://birkeland.uib.no/wp-content/themes/bcss/images/no.png -->
+                    <img class="card-img-top" src="https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                         alt="">
+                    <div class="card-body">
+                        <h4 class="card-title">{{event.name}}</h4>
+                        <h6 class="card-subtitle">{{event.eventType}}</h6>
+                        <p>{{event.description}}</p>
+                        <small class="text-muted">{{event.date | date}}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

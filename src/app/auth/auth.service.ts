@@ -52,7 +52,6 @@ export class AuthService {
     const user = new User(token, name, surname, isAdmin);
     this.user.next(user);
     Cookies.set('token', token);
-    this.router.navigate(['/events-grid']);
   }
 
   getUserDataFromToken(token: string) {
