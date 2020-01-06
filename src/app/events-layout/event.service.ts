@@ -16,9 +16,7 @@ export interface IEventTypes {
 })
 export class EventService {
   private events: Event[] = [];
-  private eventTypes: IEventTypes[] = [];
   eventsChanged = new Subject<Event[]>();
-  eventTypesChanged = new Subject<IEventTypes[]>();
 
   constructor(private http: HttpClient) {
   }
@@ -42,20 +40,6 @@ export class EventService {
   }
 
   fetchEventTypes() {
-    return this.http.get<IEventTypes[]>(`${environment.apiUrl}/eventTypes`)
-        .pipe(
-            tap(evnTypes => {
-              this.setEventTypes(evnTypes);
-            })
-        );
-  }
-
-  getEventTypes() {
-    return this.eventTypes.slice();
-  }
-
-  setEventTypes(eventTypes: IEventTypes[]) {
-    this.eventTypes = eventTypes;
-    this.eventTypesChanged.next(this.eventTypes.slice());
+    return this.http.get<IEventTypes[]>(`${environment.apiUrl}/eventTypes`);
   }
 }
