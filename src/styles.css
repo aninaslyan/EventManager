@@ -35,8 +35,22 @@ h2 {
     border-bottom: 2px solid #5fbae9;
 }
 
-button, input[type='submit'], input[type='button'] {
+button {
     cursor: pointer;
+    margin-right: 10px;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
 /* Dropdown */
@@ -45,6 +59,7 @@ button, input[type='submit'], input[type='button'] {
     padding: 21px 15px;
     font-size: 16px;
     border: none;
+    border-radius: 0;
 }
 
 .dropdown {
@@ -81,4 +96,13 @@ button, input[type='submit'], input[type='button'] {
 /* error */
 .error-p {
     color: red;
+}
+
+/* page content */
+.main {
+    display: block;
+}
+
+.container {
+    margin: 5%;
 }

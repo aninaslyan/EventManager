@@ -1,1 +1,27 @@
-<p>events-table works!</p>
+<div class="main">
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">Event Name</th>
+                    <th scope="col">Event Description</th>
+                    <th scope="col">Event Date</th>
+                    <th scope="col">Event Type</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let event of events">
+                    <td data-label="Name">{{event.name}}</td>
+                    <td data-label="Description">{{event.description}}</td>
+                    <td data-label="Date">{{event.date | date}}</td>
+                    <td data-label="Type">{{event.eventType}}</td>
+                    <td data-label="Action">
+                        <button class="edit-button">Edit</button>
+                        <button class="delete-button">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
