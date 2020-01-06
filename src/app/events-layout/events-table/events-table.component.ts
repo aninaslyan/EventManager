@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 
 import { Event } from '../event.model';
 import { EventService } from '../event.service';
@@ -17,10 +17,17 @@ export class EventsTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    forkJoin(this.eventService.fetchEvents(1, 2), this.eventService.fetchEventTypes())
+        .subscribe((response) => {
+          this.events = this.eventService.getEventTypeFromNumber(response);
+        });
+
     this.eventsSubscription = this.eventService.eventsChanged
         .subscribe(evn => {
           this.events = evn;
+          console.log(this.events, 'table');
         });
+
     this.events = this.eventService.getEvents();
   }
 

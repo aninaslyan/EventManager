@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 
 import { EventService } from '../event.service';
 import { Event } from '../event.model';
@@ -12,18 +12,22 @@ import { Event } from '../event.model';
 export class EventsGridComponent implements OnInit, OnDestroy {
   events: Event[];
   eventsSubscription: Subscription;
-  error: Error;
 
   constructor(private eventService: EventService) {
   }
 
   ngOnInit(): void {
+    forkJoin(this.eventService.fetchEvents(), this.eventService.fetchEventTypes())
+        .subscribe((response) => {
+          this.events = this.eventService.getEventTypeFromNumber(response);
+        });
+
     this.eventsSubscription = this.eventService.eventsChanged
         .subscribe(evn => {
           this.events = evn;
-        }, error => {
-          this.error = error;
+          console.log(this.events, 'grid');
         });
+
     this.events = this.eventService.getEvents();
   }
 

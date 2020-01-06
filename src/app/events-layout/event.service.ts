@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -21,8 +21,14 @@ export class EventService {
   constructor(private http: HttpClient) {
   }
 
-  fetchEvents() {
-    return this.http.get<Event[]>(`${environment.apiUrl}/events`)
+  fetchEvents(pageNum?: number, limit?: number) {
+    const params = new HttpParams()
+        .set('_page', String(pageNum))
+        .set('_limit', String(limit));
+    // todo params are being passed undefined for grid
+    return this.http.get<Event[]>(
+        `${environment.apiUrl}/events`,
+        { params })
         .pipe(
             tap(events => {
               this.setEvents(events);
@@ -41,5 +47,20 @@ export class EventService {
 
   fetchEventTypes() {
     return this.http.get<IEventTypes[]>(`${environment.apiUrl}/eventTypes`);
+  }
+
+  getEventTypeFromNumber(res) {
+    const events = res[0];
+    const eventTypes = res[1];
+
+    for (const evn of events) {
+      for (const type of eventTypes) {
+        if (evn.eventType === type.value) {
+          evn.eventType = type.type;
+          break;
+        }
+      }
+    }
+    return events;
   }
 }
