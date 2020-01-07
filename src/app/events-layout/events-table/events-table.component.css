@@ -1,13 +1,13 @@
 /* buttons */
 .edit-button {
-    color: #212529;
-    background-color: #ffc107;
-    border: 1px solid #ffc107;
+    color: #fff;
+    background-color: #39ace7;
+    border: 1px solid #39ace7;
 }
 
 .edit-button:hover {
-    background-color: #e0a800;
-    border-color: #d39e00;
+    background-color: #3396c9;
+    border-color: #3290c0;
 }
 
 .delete-button {
@@ -21,11 +21,22 @@
     border-color: #bd2130;
 }
 
+.create-button {
+    color: #fff;
+    background-color: #28a745;
+    border: 1px solid #28a745;
+}
+
+.create-button:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
 /* table */
 table {
     border: 1px solid #ccc;
     border-collapse: collapse;
-    margin: 0;
+    margin-top: 3%;
     padding: 0;
     width: 100%;
     table-layout: fixed;

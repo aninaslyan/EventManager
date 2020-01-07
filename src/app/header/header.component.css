@@ -17,14 +17,15 @@ nav ul {
 }
 
 .nav-button {
-    color: #fff;
-    background-color: #39ace7;
-    border: 1px solid #39ace7;
+    color: #17a2b8;
+    border: 1px solid #17a2b8;
+    background-color: #fff;
 }
 
 .nav-button:hover {
-    background-color: #3396c9;
-    border-color: #3290c0;
+    color: #fff;
+    border-color: #17a2b8;
+    background-color: #17a2b8;
 }
 
 .menu li, .menu li a {

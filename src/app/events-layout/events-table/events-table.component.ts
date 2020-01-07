@@ -12,6 +12,7 @@ import { EventService } from '../event.service';
 export class EventsTableComponent implements OnInit, OnDestroy {
   events: Event[];
   eventsSubscription: Subscription;
+  totalCount: number;
 
   constructor(private eventService: EventService) {
   }
@@ -19,6 +20,8 @@ export class EventsTableComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     forkJoin(this.eventService.fetchEvents(1, 2), this.eventService.fetchEventTypes())
         .subscribe((response) => {
+          this.totalCount = Number(response[0].headers.get('X-Total-Count'));
+          console.log(this.totalCount);
           this.events = this.eventService.getEventTypeFromNumber(response);
         });
 

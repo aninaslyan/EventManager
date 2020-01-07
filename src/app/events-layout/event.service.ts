@@ -28,10 +28,10 @@ export class EventService {
     // todo params are being passed undefined for grid
     return this.http.get<Event[]>(
         `${environment.apiUrl}/events`,
-        { params })
+        { params, observe: 'response' })
         .pipe(
-            tap(events => {
-              this.setEvents(events);
+            tap(eventsResp => {
+              this.setEvents(eventsResp.body);
             })
         );
   }
@@ -50,7 +50,7 @@ export class EventService {
   }
 
   getEventTypeFromNumber(res) {
-    const events = res[0];
+    const events = res[0].body;
     const eventTypes = res[1];
 
     for (const evn of events) {
