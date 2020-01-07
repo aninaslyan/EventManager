@@ -1,0 +1,18 @@
+<div class="card text-center m-3">
+    <div class="card-footer pb-0 pt-3">
+        <ul  class="pagination">
+            <li class="page-item previous-item">
+                <a class="page-link"> < </a>
+            </li>
+            <li *ngFor="let num of pageNums" class="page-item number-item">
+                <a
+                    class="page-link"
+                    (click)="onPageNum(num)"
+                >{{num}}</a>
+            </li>
+            <li class="page-item next-item">
+                <a class="page-link"> > </a>
+            </li>
+        </ul>
+    </div>
+</div>

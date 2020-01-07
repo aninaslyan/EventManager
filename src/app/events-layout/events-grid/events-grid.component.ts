@@ -25,7 +25,6 @@ export class EventsGridComponent implements OnInit, OnDestroy {
     this.eventsSubscription = this.eventService.eventsChanged
         .subscribe(evn => {
           this.events = evn;
-          console.log(this.events, 'grid');
         });
 
     this.events = this.eventService.getEvents();

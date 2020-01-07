@@ -11,6 +11,7 @@ import { EventsLayoutComponent } from './events-layout/events-layout.component';
 import { EventsGridComponent } from './events-layout/events-grid/events-grid.component';
 import { EventsTableComponent } from './events-layout/events-table/events-table.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
+import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
     EventsLayoutComponent,
     EventsGridComponent,
     EventsTableComponent,
+    PaginationComponent,
   ],
   imports: [
     BrowserModule,

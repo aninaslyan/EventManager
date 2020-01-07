@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Subject } from 'rxjs';
+import { forkJoin, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { Event } from './event.model';
@@ -62,5 +62,9 @@ export class EventService {
       }
     }
     return events;
+  }
+
+  fetchEventsAndTypes(pageNum, limit) {
+    return forkJoin(this.fetchEvents(pageNum, limit), this.fetchEventTypes());
   }
 }
