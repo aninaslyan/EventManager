@@ -14,12 +14,13 @@ export class EventsTableComponent implements OnInit, OnDestroy {
   eventsSubscription: Subscription;
   totalCount: number;
   limit = 2;
+  currentPage = 1;
 
   constructor(private eventService: EventService) {
   }
 
-  ngOnInit(): void {
-    this.eventService.fetchEventsAndTypes(1, this.limit)
+  fetchEventsFollowChanges(pageNum) {
+    this.eventService.fetchEventsAndTypes(pageNum, this.limit)
         .subscribe((response) => {
           this.totalCount = Number(response[0].headers.get('X-Total-Count'));
           this.events = this.eventService.getEventTypeFromNumber(response);
@@ -33,7 +34,26 @@ export class EventsTableComponent implements OnInit, OnDestroy {
     this.events = this.eventService.getEvents();
   }
 
+  ngOnInit(): void {
+    this.fetchEventsFollowChanges(1);
+  }
+
+  onDelete(id: number) {
+    this.eventService.deleteEvent(id)
+        .subscribe(() => {
+          this.events = this.eventService.deleteEventFromList(id);
+          if (this.events.length === 0) {
+            this.currentPage = this.currentPage - 1;
+          }
+          this.fetchEventsFollowChanges(this.currentPage);
+        });
+  }
+
   ngOnDestroy(): void {
     this.eventsSubscription.unsubscribe();
+  }
+
+  onEmitCurrentPage(currentPage) {
+    this.currentPage = currentPage;
   }
 }

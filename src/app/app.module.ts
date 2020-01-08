@@ -12,6 +12,7 @@ import { EventsGridComponent } from './events-layout/events-grid/events-grid.com
 import { EventsTableComponent } from './events-layout/events-table/events-table.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { PaginationComponent } from './pagination/pagination.component';
+import { AlertComponent } from './shared/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { PaginationComponent } from './pagination/pagination.component';
     EventsGridComponent,
     EventsTableComponent,
     PaginationComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,

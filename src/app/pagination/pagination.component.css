@@ -50,4 +50,5 @@ nav ul{
     cursor: auto;
     background-color: #fff;
     border-color: #dee2e6;
+    user-select: none;
 }

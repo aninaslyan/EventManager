@@ -19,7 +19,10 @@
                     <td data-label="Type">{{event.eventType}}</td>
                     <td data-label="Action">
                         <button class="edit-button">Edit</button>
-                        <button class="delete-button">Delete</button>
+                        <button
+                            (click)="onDelete(event.id)"
+                            class="delete-button"
+                        >Delete</button>
                     </td>
                 </tr>
             </tbody>
@@ -27,6 +30,8 @@
         <app-pagination
             [totalCount]="totalCount"
             [limit]="limit"
+            [currentPage]="currentPage"
+            (currentPageEmit)="onEmitCurrentPage($event)"
         ></app-pagination>
     </div>
 </div>

@@ -67,4 +67,12 @@ export class EventService {
   fetchEventsAndTypes(pageNum, limit) {
     return forkJoin(this.fetchEvents(pageNum, limit), this.fetchEventTypes());
   }
+
+  deleteEvent(id: number) {
+    return this.http.delete(`${environment.apiUrl}/events/${id}`);
+  }
+
+  deleteEventFromList(id: number) {
+    return this.events.filter(event => event.id !== id);
+  }
 }
