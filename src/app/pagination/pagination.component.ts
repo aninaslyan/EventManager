@@ -14,7 +14,7 @@ export class PaginationComponent implements OnChanges, OnInit, OnDestroy {
   @Input() totalCount: number;
   @Input() limit: number;
   @Input() currentPage: number;
-  @Output() currentPageEmit = new EventEmitter();
+  @Output() currentPageEmit = new EventEmitter<number>();
   events: Event[];
   pageNums: Array<number>;
   eventsSubscription: Subscription;

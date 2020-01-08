@@ -1,0 +1,46 @@
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 50;
+}
+
+.dialog-box {
+    position: fixed;
+    top: 30vh;
+    left: 20vw;
+    width: 60vw;
+    padding: 16px;
+    z-index: 100;
+    background: white;
+    box-shadow: 0 2px 8px rbga(0, 0, 0, 0.26);
+}
+
+.dialog-box-actions {
+    text-align: right;
+}
+
+.ok-button {
+    color: #fff;
+    background-color: #dc3545;
+    border: 1px solid #dc3545;
+}
+
+.ok-button:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.cancel-button {
+    color: #fff;
+    background-color: #6c757d;
+    border: 1px solid #6c757d;
+}
+
+.cancel-button:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}

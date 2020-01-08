@@ -15,6 +15,8 @@ export class EventsTableComponent implements OnInit, OnDestroy {
   totalCount: number;
   limit = 2;
   currentPage = 1;
+  dialogMessage: string;
+  eventId: number;
 
   constructor(private eventService: EventService) {
   }
@@ -39,14 +41,8 @@ export class EventsTableComponent implements OnInit, OnDestroy {
   }
 
   onDelete(id: number) {
-    this.eventService.deleteEvent(id)
-        .subscribe(() => {
-          this.events = this.eventService.deleteEventFromList(id);
-          if (this.events.length === 0) {
-            this.currentPage = this.currentPage - 1;
-          }
-          this.fetchEventsFollowChanges(this.currentPage);
-        });
+    this.dialogMessage = 'Are you sure you want to delete this event?';
+    this.eventId = id;
   }
 
   ngOnDestroy(): void {
@@ -55,5 +51,22 @@ export class EventsTableComponent implements OnInit, OnDestroy {
 
   onEmitCurrentPage(currentPage) {
     this.currentPage = currentPage;
+  }
+
+  onCancel() {
+    this.dialogMessage = null;
+  }
+
+  onDeleteSubmit() {
+    this.eventService.deleteEvent(this.eventId)
+        .subscribe(() => {
+
+          this.events = this.eventService.deleteEventFromList(this.eventId);
+          if (this.events.length === 0) {
+            this.currentPage = this.currentPage - 1;
+          }
+          this.fetchEventsFollowChanges(this.currentPage);
+        });
+    this.dialogMessage = null;
   }
 }

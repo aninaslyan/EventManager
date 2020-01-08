@@ -12,7 +12,7 @@ import { EventsGridComponent } from './events-layout/events-grid/events-grid.com
 import { EventsTableComponent } from './events-layout/events-table/events-table.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { PaginationComponent } from './pagination/pagination.component';
-import { AlertComponent } from './shared/alert/alert.component';
+import { DialogBoxComponent } from './shared/dialog-box/dialog-box.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,7 @@ import { AlertComponent } from './shared/alert/alert.component';
     EventsGridComponent,
     EventsTableComponent,
     PaginationComponent,
-    AlertComponent
+    DialogBoxComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,14 @@
+<div class="backdrop" (click)="onCloseDialog()"></div>
+<div class="dialog-box">
+    <p>{{message}}</p>
+    <div class="dialog-box-actions">
+        <button
+            class="cancel-button"
+            (click)="onCloseDialog()"
+        >Cancel</button>
+        <button
+            class="ok-button"
+            (click)="onOkDialog()"
+        >OK</button>
+    </div>
+</div>

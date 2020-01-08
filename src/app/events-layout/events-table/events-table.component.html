@@ -35,3 +35,10 @@
         ></app-pagination>
     </div>
 </div>
+
+<app-dialog-box
+  [message]="dialogMessage"
+  *ngIf="dialogMessage"
+  (closeDialog)="onCancel()"
+  (submitDialog)="onDeleteSubmit()"
+></app-dialog-box>
