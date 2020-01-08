@@ -73,6 +73,7 @@ export class EventService {
   }
 
   deleteEventFromList(id: number) {
-    return this.events.filter(event => event.id !== id);
+    this.events = this.events.filter(event => event.id !== id);
+    this.eventsChanged.next(this.events.slice());
   }
 }

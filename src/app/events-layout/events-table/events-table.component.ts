@@ -1,15 +1,17 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 import { Event } from '../event.model';
 import { EventService } from '../event.service';
+import { PaginationService } from '../../pagination/pagination.service';
 
 @Component({
   selector: 'app-events-table',
   templateUrl: './events-table.component.html',
   styleUrls: ['./events-table.component.css']
 })
-export class EventsTableComponent implements OnInit, OnDestroy {
+export class EventsTableComponent implements OnInit {
   events: Event[];
   eventsSubscription: Subscription;
   totalCount: number;
@@ -18,7 +20,7 @@ export class EventsTableComponent implements OnInit, OnDestroy {
   dialogMessage: string;
   eventId: number;
 
-  constructor(private eventService: EventService) {
+  constructor(private eventService: EventService, private paginationService: PaginationService, private router: Router) {
   }
 
   fetchEventsFollowChanges(pageNum) {
@@ -26,18 +28,26 @@ export class EventsTableComponent implements OnInit, OnDestroy {
         .subscribe((response) => {
           this.totalCount = Number(response[0].headers.get('X-Total-Count'));
           this.events = this.eventService.getEventTypeFromNumber(response);
-        });
+          this.eventsSubscription = this.eventService.eventsChanged
+              .subscribe(evn => {
+                this.events = evn;
+              });
 
-    this.eventsSubscription = this.eventService.eventsChanged
-        .subscribe(evn => {
-          this.events = evn;
+          this.events = this.eventService.getEvents();
         });
-
-    this.events = this.eventService.getEvents();
+    this.router.navigate([], { queryParams: { page: pageNum } });
   }
 
   ngOnInit(): void {
-    this.fetchEventsFollowChanges(1);
+    this.paginationService.currentPageChanged
+        .subscribe(currPage => {
+          this.currentPage = currPage;
+        });
+    this.fetchEventsFollowChanges(this.currentPage);
+  }
+
+  onCancel() {
+    this.dialogMessage = null;
   }
 
   onDelete(id: number) {
@@ -45,26 +55,19 @@ export class EventsTableComponent implements OnInit, OnDestroy {
     this.eventId = id;
   }
 
-  ngOnDestroy(): void {
-    this.eventsSubscription.unsubscribe();
-  }
-
-  onEmitCurrentPage(currentPage) {
-    this.currentPage = currentPage;
-  }
-
-  onCancel() {
-    this.dialogMessage = null;
-  }
-
   onDeleteSubmit() {
     this.eventService.deleteEvent(this.eventId)
         .subscribe(() => {
+          this.eventService.deleteEventFromList(this.eventId);
+          this.eventService.eventsChanged
+              .subscribe(events => {
+                this.events = events;
+              });
 
-          this.events = this.eventService.deleteEventFromList(this.eventId);
           if (this.events.length === 0) {
             this.currentPage = this.currentPage - 1;
           }
+          this.paginationService.currentPageChanged.next(this.currentPage);
           this.fetchEventsFollowChanges(this.currentPage);
         });
     this.dialogMessage = null;
