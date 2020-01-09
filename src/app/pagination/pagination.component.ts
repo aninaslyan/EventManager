@@ -1,20 +1,22 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { Event } from '../events-layout/event.model';
 import { PaginationService } from './pagination.service';
 import { EventService } from '../events-layout/event.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-pagination',
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.css']
 })
-export class PaginationComponent implements OnChanges, OnInit {
+export class PaginationComponent implements OnChanges, OnInit, OnDestroy {
   @Input() totalCount: number;
   @Input() limit: number;
   currentPage: number;
   events: Event[];
+  eventsSubscription: Subscription;
   pageNums: Array<number>;
 
   // todo make this component fully reusable, and after put this into shared folder
@@ -29,9 +31,16 @@ export class PaginationComponent implements OnChanges, OnInit {
     this.currentPage = num;
     this.paginationService.currentPageChanged.next(this.currentPage);
 
-    this.eventService.fetchEventsAndTypes(num, this.limit)
+    this.eventService.fetchEventsAndTypes(this.currentPage, this.limit)
         .subscribe((response) => {
           this.events = this.eventService.getEventTypeFromNumber(response);
+          this.eventService.eventsChanged.next(this.events);
+          this.eventsSubscription = this.eventService.eventsChanged
+              .subscribe(evn => {
+                this.events = evn;
+              });
+
+          this.events = this.eventService.getEvents();
         });
 
     this.router.navigate([], { queryParams: { page: this.currentPage } });
@@ -64,5 +73,9 @@ export class PaginationComponent implements OnChanges, OnInit {
     if (this.currentPage < this.pageNums.length) {
       this.onPageNum(this.currentPage + 1);
     }
+  }
+
+  ngOnDestroy() {
+    this.eventsSubscription.unsubscribe();
   }
 }

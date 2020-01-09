@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -11,7 +11,7 @@ import { PaginationService } from '../../pagination/pagination.service';
   templateUrl: './events-table.component.html',
   styleUrls: ['./events-table.component.css']
 })
-export class EventsTableComponent implements OnInit {
+export class EventsTableComponent implements OnInit, OnDestroy {
   events: Event[];
   eventsSubscription: Subscription;
   totalCount: number;
@@ -71,5 +71,9 @@ export class EventsTableComponent implements OnInit {
           this.fetchEventsFollowChanges(this.currentPage);
         });
     this.dialogMessage = null;
+  }
+
+  ngOnDestroy(): void {
+    this.eventsSubscription.unsubscribe();
   }
 }
