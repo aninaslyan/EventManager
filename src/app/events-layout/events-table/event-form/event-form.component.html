@@ -31,6 +31,19 @@
                     *ngIf="!eventForm.get('description').valid && eventForm.get('description').touched"
                 >Description field is required</p>
             </div>
+            <div>
+                <label class="fadeIn second" for="date">Date</label>
+                <input
+                    type="datetime-local"
+                    id="date"
+                    class="fadeIn second"
+                    formControlName="date"
+                    placeholder="Date of">
+                <p
+                    class="error-p"
+                    *ngIf="!eventForm.get('date').valid && eventForm.get('date').touched"
+                >Date field is required</p>
+            </div>
             <!--
             type
             date

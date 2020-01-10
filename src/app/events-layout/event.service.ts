@@ -17,6 +17,8 @@ export interface IEventTypes {
 export class EventService {
   private events: Event[] = [];
   eventsChanged = new Subject<Event[]>();
+  private event: Event;
+  eventChanged = new Subject<Event>();
 
   constructor(private http: HttpClient) {
   }
@@ -41,7 +43,12 @@ export class EventService {
   }
 
   getEventById(id: number) {
-    return this.events.find(event => event.id === id);
+    this.event = this.events.find(event => event.id === id);
+    this.eventChanged.next(this.event);
+  }
+
+  getEvent() {
+    return this.event;
   }
 
   setEvents(events: Event[]) {
@@ -76,7 +83,7 @@ export class EventService {
     this.fetchEventsAndTypes()
         .subscribe((response) => {
           this.events = this.getEventTypeFromNumber(response);
-          this.eventsChanged.next(this.events);
+          this.eventsChanged.next(this.events.slice());
         });
   }
 

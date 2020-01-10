@@ -16,6 +16,10 @@ export class EventsGridComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getCompleteEvents();
+  }
+
+  getCompleteEvents() {
     forkJoin(this.eventService.fetchEvents(), this.eventService.fetchEventTypes())
         .subscribe((response) => {
           this.events = this.eventService.getEventTypeFromNumber(response);
