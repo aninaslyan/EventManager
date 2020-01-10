@@ -1,16 +1,14 @@
 /* todo improve all rem */
 .row {
     display: flex;
-    flex-wrap: wrap;
-    margin-right: 4%;
-    margin-bottom: 5%;
+    justify-content: center;
+    flex-flow: row wrap;
 }
 
 .col {
-    position: relative;
-    max-width: 28%;
-    margin-left: 5%;
-    margin-bottom: 5%;
+    margin: 0 2% 4% 3%;
+    text-align: left;
+    max-width: 290px;
 }
 
 .card {

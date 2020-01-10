@@ -13,6 +13,7 @@ import { EventsTableComponent } from './events-layout/events-table/events-table.
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { PaginationComponent } from './pagination/pagination.component';
 import { DialogBoxComponent } from './shared/dialog-box/dialog-box.component';
+import { EventFormComponent } from './events-layout/events-table/event-form/event-form.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { DialogBoxComponent } from './shared/dialog-box/dialog-box.component';
     EventsGridComponent,
     EventsTableComponent,
     PaginationComponent,
-    DialogBoxComponent
+    DialogBoxComponent,
+    EventFormComponent
   ],
   imports: [
     BrowserModule,

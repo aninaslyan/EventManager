@@ -8,6 +8,7 @@ import { EventsTableComponent } from './events-layout/events-table/events-table.
 import { AuthGuard } from './auth/auth-guard.service';
 import { AuthGuardAdmin } from './auth/auth-guard-admin.service';
 import { AuthGuardLogin } from './auth/auth-guard-login.service';
+import { EventFormComponent } from './events-layout/events-table/event-form/event-form.component';
 
 const routes: Routes = [
   {
@@ -28,7 +29,9 @@ const routes: Routes = [
     component: EventsLayoutComponent,
     canActivate: [AuthGuardAdmin],
     children: [
-      { path: '', component: EventsTableComponent }
+      { path: '', component: EventsTableComponent },
+      { path: 'create', component: EventFormComponent },
+      { path: 'edit/:id', component: EventFormComponent }
     ]
   },
   { path: '**', redirectTo: 'login' }

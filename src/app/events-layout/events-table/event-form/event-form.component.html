@@ -1,0 +1,50 @@
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <h2 id="h2-text"> {{formText}} Event </h2>
+        <form
+            [formGroup]="eventForm"
+            (ngSubmit)="onFormSubmit()"
+        >
+            <div>
+                <label class="fadeIn first" for="name">Name</label>
+                <input
+                    type="text"
+                    id="name"
+                    class="fadeIn first"
+                    formControlName="name"
+                    placeholder="name">
+                <p
+                    class="error-p"
+                    *ngIf="!eventForm.get('name').valid && eventForm.get('name').touched"
+                >Name field is required</p>
+            </div>
+            <div>
+                <label class="fadeIn second" for="description">Description</label>
+                <input
+                    type="text"
+                    id="description"
+                    class="fadeIn second"
+                    formControlName="description"
+                    placeholder="description">
+                <p
+                    class="error-p"
+                    *ngIf="!eventForm.get('description').valid && eventForm.get('description').touched"
+                >Description field is required</p>
+            </div>
+            <!--
+            type
+            date
+            -->
+<!--            <p-->
+<!--                class="error-p"-->
+<!--                *ngIf="errorRes && eventForm.get('name').valid && eventForm.get('description').valid"-->
+<!--            >{{errorRes}}</p>-->
+            <button
+                type="submit"
+                [disabled]="!eventForm.valid"
+                class="fadeIn third">
+                {{editMode ? 'Save' : 'Create' }}
+            </button>
+        </form>
+    </div>
+</div>

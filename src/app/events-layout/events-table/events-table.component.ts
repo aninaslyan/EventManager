@@ -25,7 +25,7 @@ export class EventsTableComponent implements OnInit, OnDestroy {
 
   fetchEventsFollowChanges(pageNum) {
     this.eventService.fetchEventsAndTypes(pageNum, this.limit)
-        .subscribe((response) => {
+        .subscribe(response => {
           this.totalCount = Number(response[0].headers.get('X-Total-Count'));
           this.events = this.eventService.getEventTypeFromNumber(response);
           this.eventsSubscription = this.eventService.eventsChanged

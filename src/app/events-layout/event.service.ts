@@ -40,6 +40,10 @@ export class EventService {
     return this.events.slice();
   }
 
+  getEventById(id: number) {
+    return this.events.find(event => event.id === id);
+  }
+
   setEvents(events: Event[]) {
     this.events = events;
     this.eventsChanged.next(this.events.slice());
@@ -64,8 +68,16 @@ export class EventService {
     return events;
   }
 
-  fetchEventsAndTypes(pageNum, limit) {
+  fetchEventsAndTypes(pageNum?, limit?) {
     return forkJoin(this.fetchEvents(pageNum, limit), this.fetchEventTypes());
+  }
+
+  subscribeToEvents() {
+    this.fetchEventsAndTypes()
+        .subscribe((response) => {
+          this.events = this.getEventTypeFromNumber(response);
+          this.eventsChanged.next(this.events);
+        });
   }
 
   deleteEvent(id: number) {

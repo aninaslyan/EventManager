@@ -1,42 +1,47 @@
-<div class="main">
-    <div class="container">
-        <button class="create-button">Create Event</button>
-        <table>
-            <thead>
-                <tr>
-                    <th scope="col">Event Name</th>
-                    <th scope="col">Event Description</th>
-                    <th scope="col">Event Date</th>
-                    <th scope="col">Event Type</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let event of events">
-                    <td data-label="Name">{{event.name}}</td>
-                    <td data-label="Description">{{event.description}}</td>
-                    <td data-label="Date">{{event.date | date}}</td>
-                    <td data-label="Type">{{event.eventType}}</td>
-                    <td data-label="Action">
-                        <button class="edit-button">Edit</button>
-                        <button
-                            (click)="onDelete(event.id)"
-                            class="delete-button"
-                        >Delete</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <app-pagination
-            [totalCount]="totalCount"
-            [limit]="limit"
-        ></app-pagination>
-    </div>
-</div>
+<button
+    routerLink="create"
+    class="create-button"
+>Create Event
+</button>
+<table>
+    <thead>
+    <tr>
+        <th scope="col">Event Name</th>
+        <th scope="col">Event Description</th>
+        <th scope="col">Event Date</th>
+        <th scope="col">Event Type</th>
+        <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let event of events">
+        <td data-label="Name">{{event.name}}</td>
+        <td data-label="Description">{{event.description}}</td>
+        <td data-label="Date">{{event.date | date}}</td>
+        <td data-label="Type">{{event.eventType}}</td>
+        <td data-label="Action">
+            <button
+                [routerLink]="['edit', event.id]"
+                class="edit-button"
+            >Edit
+            </button>
+            <button
+                (click)="onDelete(event.id)"
+                class="delete-button"
+            >Delete
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<app-pagination
+    [totalCount]="totalCount"
+    [limit]="limit"
+></app-pagination>
 
 <app-dialog-box
-  [message]="dialogMessage"
-  *ngIf="dialogMessage"
-  (closeDialog)="onCancel()"
-  (submitDialog)="onDeleteSubmit()"
+    [message]="dialogMessage"
+    *ngIf="dialogMessage"
+    (closeDialog)="onCancel()"
+    (submitDialog)="onDeleteSubmit()"
 ></app-dialog-box>

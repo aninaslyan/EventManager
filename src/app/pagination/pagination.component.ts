@@ -30,7 +30,7 @@ export class PaginationComponent implements OnChanges, OnInit, OnDestroy {
   onPageNum(num: number) {
     this.currentPage = num;
     this.paginationService.currentPageChanged.next(this.currentPage);
-
+    // todo there is a similar function in service
     this.eventService.fetchEventsAndTypes(this.currentPage, this.limit)
         .subscribe((response) => {
           this.events = this.eventService.getEventTypeFromNumber(response);
