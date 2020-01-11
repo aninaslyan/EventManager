@@ -38,6 +38,10 @@ export class EventService {
         );
   }
 
+  fetchEventById(id: number) {
+    return this.http.get<Event>(`${environment.apiUrl}/events/${id}`);
+  }
+
   getEvents() {
     return this.events.slice();
   }

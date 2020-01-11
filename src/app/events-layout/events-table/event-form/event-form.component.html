@@ -44,10 +44,23 @@
                     *ngIf="!eventForm.get('date').valid && eventForm.get('date').touched"
                 >Date field is required</p>
             </div>
-            <!--
-            type
-            date
-            -->
+            <div>
+                <label class="fadeIn second" for="type">Type</label>
+                <select
+                    id="type"
+                    formControlName="type">
+                    <option
+                        *ngFor="let eventType of eventTypes"
+                        [value]="eventType.value"
+                    >
+                        {{eventType.type}}
+                    </option>
+                </select>
+                <p
+                    class="error-p"
+                    *ngIf="!eventForm.get('type').valid && eventForm.get('type').touched"
+                >Type field is required</p>
+            </div>
 <!--            <p-->
 <!--                class="error-p"-->
 <!--                *ngIf="errorRes && eventForm.get('name').valid && eventForm.get('description').valid"-->
@@ -56,7 +69,7 @@
                 type="submit"
                 [disabled]="!eventForm.valid"
                 class="fadeIn third">
-                {{editMode ? 'Save' : 'Create' }}
+                {{buttonText}}
             </button>
         </form>
     </div>
