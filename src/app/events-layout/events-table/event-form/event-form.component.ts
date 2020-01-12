@@ -19,6 +19,7 @@ export class EventFormComponent implements OnInit {
   events: Event[];
   eventToEdit: Event = null;
   eventTypes: IEventTypes[];
+  errorRes: string;
   // form fields
   eventName = '';
   eventType: number;
@@ -46,7 +47,7 @@ export class EventFormComponent implements OnInit {
           this.eventToEdit = event;
           this.setFormValues();
           this.initForm();
-        }, error => {
+        }, () => {
           this.navigateToTable();
         });
   }
@@ -91,7 +92,32 @@ export class EventFormComponent implements OnInit {
   }
 
   onFormSubmit() {
-    console.log(this.eventForm, 'eventForm');
+    const formData = this.eventForm.value;
+    const newEvent = new Event(
+        formData.date,
+        formData.description,
+    );
+
+    if (this.editMode) {
+      newEvent.name = this.eventName;
+      newEvent.eventType = this.eventType;
+
+      this.eventService.updateEvent(this.id, newEvent)
+          .subscribe(() => {
+          }, error => {
+            this.errorRes = error;
+          });
+    } else {
+      newEvent.name = formData.name;
+      newEvent.eventType = Number(formData.type);
+
+      this.eventService.addEvent(newEvent)
+          .subscribe(() => {
+          }, error => {
+            this.errorRes = error;
+          });
+    }
+    // this.navigateToTable();
   }
 
   navigateToTable() {

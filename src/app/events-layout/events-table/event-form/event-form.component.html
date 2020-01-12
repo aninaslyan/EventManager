@@ -87,10 +87,10 @@
                 </div>
             </div>
             <!-- todo when something is wrong in request-->
-<!--            <p-->
-<!--                class="error-p"-->
-<!--                *ngIf="errorRes && eventForm.get('name').valid && eventForm.get('description').valid"-->
-<!--            >{{errorRes}}</p>-->
+            <p
+                class="error-p"
+                *ngIf="errorRes"
+            >{{errorRes}}</p>
             <button
                 type="submit"
                 [disabled]="!eventForm.valid"

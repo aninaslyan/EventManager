@@ -99,4 +99,22 @@ export class EventService {
     this.events = this.events.filter(event => event.id !== id);
     this.eventsChanged.next(this.events.slice());
   }
+
+  addEvent(event: Event) {
+    return this.http.post<Event>(`${environment.apiUrl}/events`, {
+      name: event.name,
+      eventType: event.eventType,
+      date: event.date,
+      description: event.description
+    });
+  }
+
+  updateEvent(id: number, event: Event) {
+    return this.http.put<Event>(`${environment.apiUrl}/events/${id}`, {
+      name: event.name,
+      eventType: event.eventType,
+      date: event.date,
+      description: event.description
+    });
+  }
 }
