@@ -19,6 +19,8 @@ export class EventsTableComponent implements OnInit, OnDestroy {
   currentPage = 1;
   dialogMessage: string;
   eventId: number;
+  actionMessage: string;
+  errorMessage: string;
 
   constructor(private eventService: EventService, private paginationService: PaginationService, private router: Router) {
   }
@@ -44,6 +46,17 @@ export class EventsTableComponent implements OnInit, OnDestroy {
           this.currentPage = currPage;
         });
     this.fetchEventsFollowChanges(this.currentPage);
+
+    // messages
+    this.eventService.eventMessageChanged
+        .subscribe((message: string) => {
+          this.actionMessage = message;
+        });
+
+    this.eventService.errorMessageChanged
+        .subscribe((message: string) => {
+          this.errorMessage = message;
+        });
   }
 
   onCancel() {

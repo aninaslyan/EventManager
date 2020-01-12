@@ -19,7 +19,9 @@ export class EventFormComponent implements OnInit {
   events: Event[];
   eventToEdit: Event = null;
   eventTypes: IEventTypes[];
+  // messages
   errorRes: string;
+  actionMessage: string;
   // form fields
   eventName = '';
   eventType: number;
@@ -104,8 +106,11 @@ export class EventFormComponent implements OnInit {
 
       this.eventService.updateEvent(this.id, newEvent)
           .subscribe(() => {
-          }, error => {
-            this.errorRes = error;
+            this.actionMessage = `${newEvent.name} event successfully updated`;
+            this.eventService.setEventMessage(this.actionMessage);
+          }, () => {
+            this.errorRes = 'Server error, please try again later';
+            this.eventService.setErrorMessage(this.errorRes);
           });
     } else {
       newEvent.name = formData.name;
@@ -113,11 +118,14 @@ export class EventFormComponent implements OnInit {
 
       this.eventService.addEvent(newEvent)
           .subscribe(() => {
-          }, error => {
-            this.errorRes = error;
+            this.actionMessage = `${newEvent.name} event successfully created`;
+            this.eventService.setEventMessage(this.actionMessage);
+          }, () => {
+            this.errorRes = 'Server error, please try again later';
+            this.eventService.setErrorMessage(this.errorRes);
           });
     }
-    // this.navigateToTable();
+    this.navigateToTable();
   }
 
   navigateToTable() {

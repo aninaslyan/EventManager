@@ -3,6 +3,17 @@
     class="create-button"
 >Create Event
 </button>
+
+<app-alert
+    *ngIf="actionMessage"
+    [alert]="{title: actionMessage, color: '#155724', backgroundColor: '#d4edda', closable: true}"
+></app-alert>
+
+<app-alert
+    *ngIf="errorMessage"
+    [alert]="{title: errorMessage, color: '#721c24', backgroundColor: '#f8d7da', closable: false}"
+></app-alert>
+
 <table>
     <thead>
     <tr>

@@ -86,11 +86,6 @@
                     >Description field must have maximum {{eventForm.get('description').errors.maxlength.requiredLength}} characters</p>
                 </div>
             </div>
-            <!-- todo when something is wrong in request-->
-            <p
-                class="error-p"
-                *ngIf="errorRes"
-            >{{errorRes}}</p>
             <button
                 type="submit"
                 [disabled]="!eventForm.valid"

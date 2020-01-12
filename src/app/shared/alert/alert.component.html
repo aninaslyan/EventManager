@@ -1,0 +1,14 @@
+<div
+    *ngIf="alert"
+    class="alert"
+    [ngStyle]="{color: alert.color, backgroundColor: alert.backgroundColor}"
+>
+    {{alert.title}}
+    <button
+        *ngIf="alert.closable"
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        (click)="onClick()"
+    >&times;</button>
+</div>

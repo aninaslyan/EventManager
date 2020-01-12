@@ -19,6 +19,11 @@ export class EventService {
   eventsChanged = new Subject<Event[]>();
   private event: Event;
   eventChanged = new Subject<Event>();
+  // messages
+  eventMessage: string;
+  eventMessageChanged = new Subject<string>();
+  errorMessage: string;
+  errorMessageChanged = new Subject<string>();
 
   constructor(private http: HttpClient) {
   }
@@ -116,5 +121,16 @@ export class EventService {
       date: event.date,
       description: event.description
     });
+  }
+
+  // messages
+  setEventMessage(message) {
+    this.eventMessage = message;
+    this.eventMessageChanged.next(this.eventMessage);
+  }
+
+  setErrorMessage(message) {
+    this.errorMessage = message;
+    this.errorMessageChanged.next(this.errorMessage);
   }
 }
