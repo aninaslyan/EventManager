@@ -21,19 +21,19 @@ export class EventFormComponent implements OnInit {
   eventTypes: IEventTypes[];
   // form fields
   eventName = '';
-  eventDescription = '';
-  eventDate: Date;
   eventType: number;
+  eventDate: Date;
+  eventDescription = '';
 
   constructor(private route: ActivatedRoute, private eventService: EventService, private router: Router) {
   }
 
   ngOnInit() {
-    this.initForm();
     this.route.params
         .subscribe((params: Params) => {
           this.id = Number(params.id);
           this.editMode = !!params.id;
+          this.initForm();
           this.formText = this.editMode ? 'Edit' : 'Create';
           this.buttonText = this.editMode ? 'Save' : 'Create';
           this.handleForm();
@@ -67,25 +67,25 @@ export class EventFormComponent implements OnInit {
 
   setFormValues() {
     this.eventName = this.eventToEdit.name;
-    this.eventDescription = this.eventToEdit.description;
-    this.eventDate = this.eventToEdit.date; // '2019-12-28T12:56' "YYYY-MM-DDThh:mm"// todo maybe use moment
     this.eventType = Number(this.eventToEdit.eventType);
+    this.eventDate = this.eventToEdit.date; // '2019-12-28T12:56' "YYYY-MM-DDThh:mm"// todo maybe use moment
+    this.eventDescription = this.eventToEdit.description;
   }
 
   private initForm() {
     this.eventForm = new FormGroup({
-      name: new FormControl(this.eventName, [
+      name: new FormControl({ value: this.eventName, disabled: this.editMode }, [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(12)
       ]),
+      type: new FormControl({ value: this.eventType, disabled: this.editMode }, Validators.required),
+      date: new FormControl(this.eventDate, Validators.required),
       description: new FormControl(this.eventDescription, [
         Validators.required,
         Validators.minLength(30),
         Validators.maxLength(100)
       ]),
-      date: new FormControl(this.eventDate, [Validators.required]),
-      type: new FormControl(this.eventType, [Validators.required]),
       // todo image uploading
     });
   }
