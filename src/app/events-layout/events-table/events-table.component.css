@@ -40,16 +40,17 @@ table {
     padding: 0;
     width: 100%;
     table-layout: fixed;
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
 }
 
-table tr {
+tbody tr {
     background-color: #f8f8f8;
     border: 1px solid #ddd;
     padding: .35em;
 }
 
 tbody tr:hover {
-    background-color: #eaeaea;
+    background-color: #eaeaea;/*#e3e3e3;*/
 }
 
 table th,
@@ -62,6 +63,17 @@ table th {
     font-size: .85em;
     letter-spacing: .1em;
     text-transform: uppercase;
+}
+
+table thead {
+    background-color: #b5c8d2;/*#afb7c1;/*#a1b1c5;/*#cedcde;*/
+}
+
+@media screen and (max-width: 920px) {
+    table td button {
+        margin-bottom: 5%;
+        margin-top: 5%;
+    }
 }
 
 @media screen and (max-width: 600px) {
@@ -106,5 +118,10 @@ table th {
 
     table td:last-child {
         border-bottom: 0;
+    }
+
+    table td button {
+        margin-bottom: 0;
+        margin-top: 2%;
     }
 }

@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AuthComponent } from './auth/auth.component';
+import { AuthGuard } from './auth/guards/auth-guard.service';
+import { AuthGuardAdmin } from './auth/guards/auth-guard-admin.service';
+import { AuthGuardLogin } from './auth/guards/auth-guard-login.service';
 import { EventsGridComponent } from './events-layout/events-grid/events-grid.component';
 import { EventsLayoutComponent } from './events-layout/events-layout.component';
 import { EventsTableComponent } from './events-layout/events-table/events-table.component';
-import { AuthGuard } from './auth/auth-guard.service';
-import { AuthGuardAdmin } from './auth/auth-guard-admin.service';
-import { AuthGuardLogin } from './auth/auth-guard-login.service';
 import { EventFormComponent } from './events-layout/events-table/event-form/event-form.component';
 
 const routes: Routes = [
@@ -30,6 +30,14 @@ const routes: Routes = [
     canActivate: [AuthGuardAdmin],
     children: [
       { path: '', component: EventsTableComponent },
+    ]
+  },
+  // todo find a better solution for not showing /event route
+  {
+    path: 'event',
+    component: EventsLayoutComponent,
+    canActivate: [AuthGuardAdmin],
+    children: [
       { path: 'create', component: EventFormComponent },
       { path: 'edit/:id', component: EventFormComponent }
     ]

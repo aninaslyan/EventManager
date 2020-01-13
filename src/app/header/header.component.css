@@ -55,3 +55,7 @@ nav ul {
 .dropbtn {
     background-color: #fff;
 }
+
+.active-menu {
+    background-color: #dddddd;
+}

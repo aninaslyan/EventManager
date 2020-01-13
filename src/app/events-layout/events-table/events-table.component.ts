@@ -15,7 +15,7 @@ export class EventsTableComponent implements OnInit, OnDestroy {
   events: Event[];
   eventsSubscription: Subscription;
   totalCount: number;
-  limit = 2;
+  limit = 10;
   currentPage = 1;
   dialogMessage: string;
   eventId: number;

@@ -1,5 +1,5 @@
 <button
-    routerLink="create"
+    [routerLink]="['../', 'event', 'create']"
     class="create-button"
 >Create Event
 </button>
@@ -32,7 +32,7 @@
         <td data-label="Type">{{event.eventType}}</td>
         <td data-label="Action">
             <button
-                [routerLink]="['edit', event.id]"
+                [routerLink]="['../', 'event', 'edit', event.id]"
                 class="edit-button"
             >Edit
             </button>
