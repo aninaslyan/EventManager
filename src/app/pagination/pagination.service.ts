@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class PaginationService {
-  currentPageChanged = new Subject<number>();
+  currentPageChanged: Subject<number> = new Subject();
 
   setPageNumbers(total: number, limit: number) {
     return Array.from({ length: total % limit === 0 ? total / limit : total / limit + 1 }, (v, k) => k + 1);

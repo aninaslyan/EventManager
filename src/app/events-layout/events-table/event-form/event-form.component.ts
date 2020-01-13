@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 import { EventService, IEventTypes } from '../../event.service';
 import { Event } from '../../event.model';
@@ -19,16 +20,17 @@ export class EventFormComponent implements OnInit {
   events: Event[];
   eventToEdit: Event = null;
   eventTypes: IEventTypes[];
+  today = this.datePipe.transform(Date.now(), 'yyyy-MM-ddThh:mm');
   // messages
   errorRes: string;
   actionMessage: string;
   // form fields
   eventName = '';
   eventType: number;
-  eventDate: Date;
+  eventDate: Date | string = this.today;
   eventDescription = '';
 
-  constructor(private route: ActivatedRoute, private eventService: EventService, private router: Router) {
+  constructor(private route: ActivatedRoute, private eventService: EventService, private router: Router, public datePipe: DatePipe) {
   }
 
   ngOnInit() {

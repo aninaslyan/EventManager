@@ -16,14 +16,14 @@ export interface IEventTypes {
 })
 export class EventService {
   private events: Event[] = [];
-  eventsChanged = new Subject<Event[]>();
+  eventsChanged: Subject<Event[]> = new Subject();
   private event: Event;
-  eventChanged = new Subject<Event>();
+  eventChanged: Subject<Event> = new Subject();
   // messages
   eventMessage: string;
-  eventMessageChanged = new Subject<string>();
+  eventMessageChanged: Subject<string> = new Subject();
   errorMessage: string;
-  errorMessageChanged = new Subject<string>();
+  errorMessageChanged: Subject<string> = new Subject();
 
   constructor(private http: HttpClient) {
   }
