@@ -77,7 +77,7 @@ export class EventService {
     return forkJoin(this.fetchEvents(pageNum, limit), this.fetchEventTypes());
   }
 
-  deleteEvent(id: number) {
+  deleteEventRequest(id: number) {
     return this.http.delete(`${environment.apiUrl}/events/${id}`);
   }
 
@@ -86,7 +86,7 @@ export class EventService {
     this.eventsChanged.next(this.events);
   }
 
-  addEvent(event: Event) {
+  createEventRequest(event: Event) {
     return this.http.post<Event>(`${environment.apiUrl}/events`, {
       name: event.name,
       eventType: event.eventType,
@@ -95,7 +95,12 @@ export class EventService {
     });
   }
 
-  updateEvent(id: number, event: Event) {
+  addEvent(event: Event) {
+    this.events.push(event);
+    this.eventsChanged.next(this.events);
+  }
+
+  updateEventRequest(id: number, event: Event) {
     return this.http.put<Event>(`${environment.apiUrl}/events/${id}`, {
       name: event.name,
       eventType: event.eventType,

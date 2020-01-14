@@ -28,7 +28,6 @@ export class PaginationComponent implements OnChanges, OnInit {
     this.paginationService.currentPageChanged
         .subscribe(page => {
           if (this.currentPage !== page) {
-            console.log(page);
             this.currentPage = page;
           }
         });

@@ -106,7 +106,7 @@ export class EventFormComponent implements OnInit {
       newEvent.name = this.eventName;
       newEvent.eventType = this.eventType;
 
-      this.eventService.updateEvent(this.id, newEvent)
+      this.eventService.updateEventRequest(this.id, newEvent)
           .subscribe(() => {
             this.actionMessage = `${newEvent.name} event successfully updated`;
             this.eventService.setEventMessage(this.actionMessage);
@@ -118,7 +118,7 @@ export class EventFormComponent implements OnInit {
       newEvent.name = formData.name;
       newEvent.eventType = Number(formData.type);
 
-      this.eventService.addEvent(newEvent)
+      this.eventService.createEventRequest(newEvent)
           .subscribe(() => {
             this.actionMessage = `${newEvent.name} event successfully created`;
             this.eventService.setEventMessage(this.actionMessage);

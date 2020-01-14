@@ -21,6 +21,7 @@ export class EventsTableComponent implements OnInit, OnDestroy {
   eventId: number;
   actionMessage: string;
   errorMessage: string;
+  currentPageChangedSubscription: Subscription;
 
   constructor(private eventService: EventService, private paginationService: PaginationService, private router: Router) {
   }
@@ -37,13 +38,15 @@ export class EventsTableComponent implements OnInit, OnDestroy {
               });
 
           this.events = this.eventService.getEvents();
+          console.log(this.events);
         });
-    this.router.navigate([], { queryParams: { page: pageNum } });
+    // this.router.navigate([], { queryParams: { page: pageNum } });
   }
 
   ngOnInit(): void {
-    this.paginationService.currentPageChanged
+    this.currentPageChangedSubscription = this.paginationService.currentPageChanged
         .subscribe(currPage => {
+          console.log('currentPageChanged');
           // checking maybe unnecessary
           if (this.currentPage !== currPage) {
             this.currentPage = currPage;
@@ -75,7 +78,7 @@ export class EventsTableComponent implements OnInit, OnDestroy {
   }
 
   onDeleteSubmit() {
-    this.eventService.deleteEvent(this.eventId)
+    this.eventService.deleteEventRequest(this.eventId)
         .subscribe(() => {
           this.eventService.deleteEventFromList(this.eventId);
           this.eventService.eventsChanged
@@ -96,5 +99,6 @@ export class EventsTableComponent implements OnInit, OnDestroy {
     if (this.eventsSubscription) {
       this.eventsSubscription.unsubscribe();
     }
+    this.currentPageChangedSubscription.unsubscribe();
   }
 }
