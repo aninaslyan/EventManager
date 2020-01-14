@@ -45,12 +45,13 @@ table {
 
 tbody tr {
     background-color: #f8f8f8;
+    word-break: break-all;
     border: 1px solid #ddd;
     padding: .35em;
 }
 
 tbody tr:hover {
-    background-color: #eaeaea;/*#e3e3e3;*/
+    background-color: #e1e1e1;
 }
 
 table th,

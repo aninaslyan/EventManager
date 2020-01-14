@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 interface IAlertOptions {
   title: string;
@@ -12,11 +12,18 @@ interface IAlertOptions {
   templateUrl: './alert.component.html',
   styleUrls: ['./alert.component.css']
 })
-export class AlertComponent {
+export class AlertComponent implements OnInit {
   @Input() alert: IAlertOptions;
+
   constructor() { }
 
-  onClick() {
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.onClose();
+    }, 5000);
+  }
+
+  onClose() {
     this.alert = null;
   }
 }

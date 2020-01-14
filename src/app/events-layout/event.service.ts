@@ -17,8 +17,6 @@ export interface IEventTypes {
 export class EventService {
   private events: Event[] = [];
   eventsChanged: Subject<Event[]> = new Subject();
-  private event: Event;
-  eventChanged: Subject<Event> = new Subject();
   // messages
   eventMessage: string;
   eventMessageChanged: Subject<string> = new Subject();
@@ -48,21 +46,12 @@ export class EventService {
   }
 
   getEvents() {
-    return this.events.slice();
-  }
-
-  getEventById(id: number) {
-    this.event = this.events.find(event => event.id === id);
-    this.eventChanged.next(this.event);
-  }
-
-  getEvent() {
-    return this.event;
+    return this.events;
   }
 
   setEvents(events: Event[]) {
     this.events = events;
-    this.eventsChanged.next(this.events.slice());
+    this.eventsChanged.next();
   }
 
   fetchEventTypes() {
@@ -88,21 +77,13 @@ export class EventService {
     return forkJoin(this.fetchEvents(pageNum, limit), this.fetchEventTypes());
   }
 
-  subscribeToEvents() {
-    this.fetchEventsAndTypes()
-        .subscribe((response) => {
-          this.events = this.getEventTypeFromNumber(response);
-          this.eventsChanged.next(this.events.slice());
-        });
-  }
-
   deleteEvent(id: number) {
     return this.http.delete(`${environment.apiUrl}/events/${id}`);
   }
 
   deleteEventFromList(id: number) {
     this.events = this.events.filter(event => event.id !== id);
-    this.eventsChanged.next(this.events.slice());
+    this.eventsChanged.next(this.events);
   }
 
   addEvent(event: Event) {

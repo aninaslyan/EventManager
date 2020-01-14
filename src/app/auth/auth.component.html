@@ -31,10 +31,6 @@
                     *ngIf="!signInForm.get('password').valid && signInForm.get('password').touched"
                 >Password field is required</p>
             </div>
-            <p
-                class="error-p"
-                *ngIf="errorRes && signInForm.get('email').valid && signInForm.get('password').valid"
-            >{{errorRes}}</p>
             <button
                 type="submit"
                 [disabled]="!signInForm.valid"
@@ -42,5 +38,11 @@
                 Log In
             </button>
         </form>
+    </div>
+    <div class="alert-div">
+        <app-alert
+            *ngIf="errorRes && signInForm.get('email').valid && signInForm.get('password').valid"
+            [alert]="{title: errorRes, color: '#721c24', backgroundColor: '#f8d7da', closable: true}"
+        ></app-alert>
     </div>
 </div>
