@@ -15,7 +15,7 @@ export class EventsTableComponent implements OnInit, OnDestroy {
   events: Event[];
   eventsSubscription: Subscription;
   totalCount: number;
-  limit = 10;
+  limit = 2;
   currentPage = 1;
   dialogMessage: string;
   eventId: number;
@@ -28,6 +28,7 @@ export class EventsTableComponent implements OnInit, OnDestroy {
   fetchEventsFollowChanges(pageNum) {
     this.eventService.fetchEventsAndTypes(pageNum, this.limit)
         .subscribe(response => {
+          console.log('fetch', pageNum);
           this.totalCount = Number(response[0].headers.get('X-Total-Count'));
           this.events = this.eventService.getEventTypeFromNumber(response);
           this.eventsSubscription = this.eventService.eventsChanged
@@ -43,8 +44,13 @@ export class EventsTableComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.paginationService.currentPageChanged
         .subscribe(currPage => {
-          this.currentPage = currPage;
+          // checking maybe unnecessary
+          if (this.currentPage !== currPage) {
+            this.currentPage = currPage;
+            this.fetchEventsFollowChanges(this.currentPage);
+          }
         });
+    // is needed only first time
     this.fetchEventsFollowChanges(this.currentPage);
 
     // messages
@@ -87,6 +93,8 @@ export class EventsTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.eventsSubscription.unsubscribe();
+    if (this.eventsSubscription) {
+      this.eventsSubscription.unsubscribe();
+    }
   }
 }
