@@ -34,6 +34,7 @@
                 <label class="fadeIn second" for="type">Event Type</label>
                 <select
                     id="type"
+                    class="fadeIn second"
                     formControlName="type">
                     <option
                         *ngFor="let eventType of eventTypes"
@@ -51,10 +52,10 @@
                 <input
                     type="datetime-local"
                     id="date"
-                    class="fadeIn second"
+                    class="fadeIn third"
                     formControlName="date"
                     [min]="today"
-                    placeholder="Date of">
+                >
                 <p
                     class="error-p"
                     *ngIf="eventForm.get('date').touched && eventForm.get('date').invalid && eventForm.get('date').errors.required"
@@ -67,7 +68,8 @@
                     rows="5"
                     type="text"
                     id="description"
-                    class="fadeIn second"
+                    class="fadeIn forth"
+                    placeholder="description"
                     formControlName="description">
                 </textarea>
                 <div
@@ -90,7 +92,7 @@
             <button
                 type="submit"
                 [disabled]="!eventForm.valid"
-                class="fadeIn third">
+                class="form-button fadeIn fifth">
                 {{buttonText}}
             </button>
         </form>

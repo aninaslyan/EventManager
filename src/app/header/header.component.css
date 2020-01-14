@@ -7,7 +7,8 @@ nav {
     font: 14px Arial, sans-serif; /*"Open Sans", Helvetica, Arial, sans-serif*/
     line-height: 1;
     width: 100%;
-    background: #fff;/*#f3a413*/
+    background: #fff;
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.3);
 }
 
 nav ul {
