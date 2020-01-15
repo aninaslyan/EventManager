@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Event } from '../event.model';
 import { EventService } from '../event.service';
@@ -15,7 +15,7 @@ export class EventsTableComponent implements OnInit, OnDestroy {
   events: Event[];
   eventsSubscription: Subscription;
   totalCount: number;
-  limit = 2;
+  limit = 2; // todo
   currentPage = 1;
   dialogMessage: string;
   eventId: number;
@@ -23,12 +23,16 @@ export class EventsTableComponent implements OnInit, OnDestroy {
   errorMessage: string;
   currentPageChangedSubscription: Subscription;
 
-  constructor(private eventService: EventService, private paginationService: PaginationService, private router: Router) {
+  constructor(private eventService: EventService,
+              private paginationService: PaginationService,
+              private route: ActivatedRoute,
+              private router: Router) {
   }
 
   fetchEventsFollowChanges(pageNum) {
     this.eventService.fetchEventsAndTypes(pageNum, this.limit)
         .subscribe(response => {
+          console.log('fetch', pageNum);
           this.totalCount = Number(response[0].headers.get('X-Total-Count'));
           this.events = this.eventService.getEventTypeFromNumber(response[0].body, response[1]);
           this.eventsSubscription = this.eventService.eventsChanged
@@ -37,13 +41,15 @@ export class EventsTableComponent implements OnInit, OnDestroy {
               });
 
           this.events = this.eventService.getEvents();
+          console.log(this.events);
         });
-    // this.router.navigate([], { queryParams: { page: pageNum } });
+    this.router.navigate([], { queryParams: { page: pageNum } });
   }
 
   ngOnInit(): void {
     this.currentPageChangedSubscription = this.paginationService.currentPageChanged
         .subscribe(currPage => {
+          console.log('currentPageChanged');
           if (this.currentPage !== currPage) {
             this.currentPage = currPage;
             this.fetchEventsFollowChanges(this.currentPage);

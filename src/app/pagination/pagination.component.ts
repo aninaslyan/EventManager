@@ -32,20 +32,18 @@ export class PaginationComponent implements OnChanges, OnInit {
             this.currentPage = page;
           }
         });
-    // this.router.navigate([], { queryParams: { page: this.currentPage } });
   }
 
   ngOnInit() {
-    this.onPageNum(1);
-    // this.route.queryParams
-    //     .subscribe((params: Params) => {
-    //       if (params.page) { // todo  && params.page <= this.pageNums.length && params.page > 0
-    //         this.currentPage = Number(params.page);
-    //       } else {
-    //         this.currentPage = 1;
-    //       }
-    //       this.onPageNum(this.currentPage);
-    //     });
+    this.route.queryParams
+        .subscribe((params: Params) => {
+          if (params.page) { // todo  && params.page <= this.pageNums.length && params.page > 0
+            this.currentPage = Number(params.page);
+          } else {
+            this.currentPage = 1;
+          }
+          this.onPageNum(this.currentPage);
+        });
   }
 
   onPrevClick() {
