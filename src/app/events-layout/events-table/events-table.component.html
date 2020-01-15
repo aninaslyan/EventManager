@@ -28,7 +28,7 @@
     <tr *ngFor="let event of events">
         <td data-label="Name">{{event.name}}</td>
         <td data-label="Description">{{event.description}}</td>
-        <td data-label="Date">{{event.date | date}}</td>
+        <td data-label="Date">{{event.date | date:'MMMM dd, yyyy | hh:mm a'}}</td>
         <td data-label="Type">{{event.eventType}}</td>
         <td data-label="Action">
             <button

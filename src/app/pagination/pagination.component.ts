@@ -25,6 +25,7 @@ export class PaginationComponent implements OnChanges, OnInit {
   onPageNum(num: number) {
     this.currentPage = num;
     this.paginationService.currentPageChanged.next(this.currentPage);
+    // is necessary in case of external changes (e.g delete)
     this.paginationService.currentPageChanged
         .subscribe(page => {
           if (this.currentPage !== page) {

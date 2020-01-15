@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 
+import { environment } from '../../../environments/environment';
 import { EventService } from '../event.service';
 import { Event } from '../event.model';
 
@@ -11,6 +12,8 @@ import { Event } from '../event.model';
 })
 export class EventsGridComponent implements OnInit {
   events: Event[];
+  eventImagePath = `${environment.apiUrl}/image`;
+  noImagePath = '../../../assets/img/noImage.png';
 
   constructor(private eventService: EventService) {
   }

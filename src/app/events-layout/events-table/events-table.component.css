@@ -48,6 +48,7 @@ tbody tr {
     word-break: break-all;
     border: 1px solid #ddd;
     padding: .35em;
+    font-size: 15px;
 }
 
 tbody tr:hover {
@@ -67,7 +68,8 @@ table th {
 }
 
 table thead {
-    background-color: #b5c8d2;/*#afb7c1;/*#a1b1c5;/*#cedcde;*/
+    background-color: #b5c8d2;
+    font-size: 17px;
 }
 
 @media screen and (max-width: 920px) {
