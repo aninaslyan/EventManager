@@ -14,7 +14,6 @@ export class PaginationComponent implements OnChanges, OnInit {
   currentPage: number;
   pageNums: Array<number>;
 
-  // todo put this into shared folder, this is reusable component
   constructor(private paginationService: PaginationService, private router: Router, private route: ActivatedRoute) {
   }
 
@@ -37,7 +36,7 @@ export class PaginationComponent implements OnChanges, OnInit {
   ngOnInit() {
     this.route.queryParams
         .subscribe((params: Params) => {
-          if (params.page) { // todo  && params.page <= this.pageNums.length && params.page > 0
+          if (params.page && params.page > 0) {
             this.currentPage = Number(params.page);
           } else {
             this.currentPage = 1;
