@@ -14,7 +14,7 @@ export class PaginationComponent implements OnChanges, OnInit {
   currentPage: number;
   pageNums: Array<number>;
 
-  // todo make this component fully reusable, and after put this into shared folder
+  // todo put this into shared folder, this is reusable component
   constructor(private paginationService: PaginationService, private router: Router, private route: ActivatedRoute) {
   }
 

@@ -48,7 +48,7 @@
                 >Type field is required</p>
             </div>
             <div>
-                <label class="fadeIn second" for="date">Event Date</label>
+                <label class="fadeIn third" for="date">Event Date</label>
                 <input
                     type="datetime-local"
                     id="date"
@@ -62,7 +62,7 @@
                 >Date field is required</p>
             </div>
             <div>
-                <label class="fadeIn second" for="description">Event Description</label>
+                <label class="fadeIn forth" for="description">Event Description</label>
                 <textarea
                     cols="25"
                     rows="5"
@@ -89,10 +89,37 @@
                     >Description field must have maximum {{eventForm.get('description').errors.maxlength.requiredLength}} characters</p>
                 </div>
             </div>
+
+            <div>
+                <label class="fadeIn fifth" for="image">Event Image</label>
+                <!-- image previews start -->
+                <div class="preview" *ngIf="eventImage">
+                    <img
+                        [src]="eventService.getImage(eventImage)"
+                        class="img-preview fadeIn fifth"
+                    >
+                </div>
+                <div class="preview" *ngIf="newImage">
+                    <p>Preview</p>
+                    <img
+                        [src]="newImage"
+                        class="img-preview fadeIn fifth"
+                    >
+                </div>
+                <!-- image previews end -->
+                <input
+                    type="file"
+                    accept="image/*"
+                    formControlName="image"
+                    (change)="onFileSelect($event)"
+                    id="image"
+                    class="fadeIn fifth"
+                >
+            </div>
             <button
                 type="submit"
                 [disabled]="!eventForm.valid"
-                class="form-button fadeIn fifth">
+                class="form-button fadeIn sixth">
                 {{buttonText}}
             </button>
         </form>

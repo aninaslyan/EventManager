@@ -11,8 +11,8 @@
     <div class="col" *ngFor="let event of events">
         <div class="card shadow-sm">
             <img class="card-img-top"
-                 [src]="event.image? eventImagePath + '/' + event.image : noImagePath"
-                 alt="">
+                 [src]="event.image? eventService.getImage(event.image) : noImagePath"
+            >
             <div class="card-body">
                 <h4 class="card-title">{{event.name}}</h4>
                 <h6 class="card-subtitle">{{event.eventType}}</h6>

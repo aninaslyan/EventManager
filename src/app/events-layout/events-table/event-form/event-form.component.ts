@@ -21,6 +21,8 @@ export class EventFormComponent implements OnInit {
   eventToEdit: Event = null;
   eventTypes: IEventTypes[];
   today = this.datePipe.transform(Date.now(), 'yyyy-MM-ddThh:mm');
+  imageFile;
+  newImage;
   // messages
   errorRes: string;
   actionMessage: string;
@@ -29,6 +31,7 @@ export class EventFormComponent implements OnInit {
   eventType: number;
   eventDate: Date | string = this.today;
   eventDescription = '';
+  eventImage;
 
   constructor(private route: ActivatedRoute, private eventService: EventService, private router: Router, public datePipe: DatePipe) {
   }
@@ -73,8 +76,9 @@ export class EventFormComponent implements OnInit {
   setFormValues() {
     this.eventName = this.eventToEdit.name;
     this.eventType = Number(this.eventToEdit.eventType);
-    this.eventDate = this.eventToEdit.date; // '2019-12-28T12:56' "YYYY-MM-DDThh:mm"// todo maybe use moment
+    this.eventDate = this.eventToEdit.date; // '2019-12-28T12:56' "YYYY-MM-DDThh:mm"
     this.eventDescription = this.eventToEdit.description;
+    this.eventImage = this.eventToEdit.image;
   }
 
   private initForm() {
@@ -91,7 +95,7 @@ export class EventFormComponent implements OnInit {
         Validators.minLength(30),
         Validators.maxLength(100)
       ]),
-      // todo image uploading
+      image: new FormControl(null)
     });
   }
 
@@ -105,9 +109,14 @@ export class EventFormComponent implements OnInit {
     if (this.editMode) {
       newEvent.name = this.eventName;
       newEvent.eventType = this.eventType;
+      // if image exists during edit, put it for not to be overwritten
+      if (this.eventImage) {
+        newEvent.image = this.eventImage;
+      }
 
       this.eventService.updateEventRequest(this.id, newEvent)
-          .subscribe(() => {
+          .subscribe((event) => {
+            this.uploadImage(event.id);
             this.actionMessage = `${newEvent.name} event successfully updated`;
             this.eventService.setEventMessage(this.actionMessage);
           }, () => {
@@ -119,7 +128,8 @@ export class EventFormComponent implements OnInit {
       newEvent.eventType = Number(formData.type);
 
       this.eventService.createEventRequest(newEvent)
-          .subscribe(() => {
+          .subscribe((event) => {
+            this.uploadImage(event.id);
             this.actionMessage = `${newEvent.name} event successfully created`;
             this.eventService.setEventMessage(this.actionMessage);
           }, () => {
@@ -128,6 +138,25 @@ export class EventFormComponent implements OnInit {
           });
     }
     this.navigateToTable();
+  }
+
+  uploadImage(id: number) {
+    if (this.imageFile) {
+      this.eventService.uploadEventImageRequest(id, this.imageFile)
+          .subscribe(() => {
+          });
+    }
+  }
+
+  onFileSelect(event) {
+    if (event.target.files && event.target.files[0]) {
+      this.imageFile = event.target.files[0];
+
+      const reader = new FileReader();
+      reader.onload = () => this.newImage = reader.result;
+
+      reader.readAsDataURL(this.imageFile);
+    }
   }
 
   navigateToTable() {

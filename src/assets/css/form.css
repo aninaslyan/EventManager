@@ -92,7 +92,6 @@ input[type=text]::placeholder, input[type=password]::placeholder, textarea::plac
     opacity: 0;
 }
 
-/* todo image*/
 input.ng-invalid.ng-touched,
 select.ng-invalid.ng-touched,
 textarea.ng-invalid.ng-touched {
@@ -237,4 +236,10 @@ input[type=text]:disabled, select:disabled {
     -webkit-animation-delay: 1.2s;
     -moz-animation-delay: 1.2s;
     animation-delay: 1.2s;
+}
+
+.fadeIn.sixth {
+    -webkit-animation-delay: 1.4s;
+    -moz-animation-delay: 1.4s;
+    animation-delay: 1.4s;
 }

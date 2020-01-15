@@ -29,16 +29,14 @@ export class EventsTableComponent implements OnInit, OnDestroy {
   fetchEventsFollowChanges(pageNum) {
     this.eventService.fetchEventsAndTypes(pageNum, this.limit)
         .subscribe(response => {
-          console.log('fetch', pageNum);
           this.totalCount = Number(response[0].headers.get('X-Total-Count'));
-          this.events = this.eventService.getEventTypeFromNumber(response);
+          this.events = this.eventService.getEventTypeFromNumber(response[0].body, response[1]);
           this.eventsSubscription = this.eventService.eventsChanged
               .subscribe(evn => {
                 this.events = evn;
               });
 
           this.events = this.eventService.getEvents();
-          console.log(this.events);
         });
     // this.router.navigate([], { queryParams: { page: pageNum } });
   }
@@ -46,8 +44,6 @@ export class EventsTableComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.currentPageChangedSubscription = this.paginationService.currentPageChanged
         .subscribe(currPage => {
-          console.log('currentPageChanged');
-          // checking maybe unnecessary
           if (this.currentPage !== currPage) {
             this.currentPage = currPage;
             this.fetchEventsFollowChanges(this.currentPage);

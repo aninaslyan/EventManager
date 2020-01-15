@@ -73,7 +73,7 @@ export class AuthService {
   }
 
   getUserToken() {
-    // todo try to get token from user: BehaviorSubject, this is more secure
+    // todo get token from user: BehaviorSubject, this is more secure
     return Cookies.get('token');
   }
 
@@ -122,7 +122,6 @@ export class AuthService {
   }
 
   isAuthenticated() {
-    // todo read token from this.user after all, duplication with autoLogin functionality
     const token = Cookies.get('token');
     return !!token && this.isTokenValid(token);
   }

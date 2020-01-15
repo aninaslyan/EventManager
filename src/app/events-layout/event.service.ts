@@ -26,17 +26,25 @@ export class EventService {
   constructor(private http: HttpClient) {
   }
 
-  fetchEvents(pageNum?: number, limit?: number) {
+  fetchEventsByPage(pageNum: number, limit: number) {
     const params = new HttpParams()
         .set('_page', String(pageNum))
         .set('_limit', String(limit));
-    // todo params are being passed undefined for grid
     return this.http.get<Event[]>(
         `${environment.apiUrl}/events`,
         { params, observe: 'response' })
         .pipe(
             tap(eventsResp => {
               this.setEvents(eventsResp.body);
+            })
+        );
+  }
+
+  fetchAllEvents() {
+    return this.http.get<Event[]>(`${environment.apiUrl}/events`)
+        .pipe(
+            tap(events => {
+              this.setEvents(events);
             })
         );
   }
@@ -58,12 +66,11 @@ export class EventService {
     return this.http.get<IEventTypes[]>(`${environment.apiUrl}/eventTypes`);
   }
 
-  getEventTypeFromNumber(res) {
-    const events = res[0].body;
-    const eventTypes = res[1];
+  getEventTypeFromNumber(eventsRes, eventTypesRes) {
+    const events = eventsRes;
 
-    for (const evn of events) {
-      for (const type of eventTypes) {
+    for (const evn of eventsRes) {
+      for (const type of eventTypesRes) {
         if (evn.eventType === type.value) {
           evn.eventType = type.type;
           break;
@@ -73,8 +80,8 @@ export class EventService {
     return events;
   }
 
-  fetchEventsAndTypes(pageNum?, limit?) {
-    return forkJoin(this.fetchEvents(pageNum, limit), this.fetchEventTypes());
+  fetchEventsAndTypes(pageNum, limit) {
+    return forkJoin(this.fetchEventsByPage(pageNum, limit), this.fetchEventTypes());
   }
 
   deleteEventRequest(id: number) {
@@ -95,17 +102,13 @@ export class EventService {
     });
   }
 
-  addEvent(event: Event) {
-    this.events.push(event);
-    this.eventsChanged.next(this.events);
-  }
-
   updateEventRequest(id: number, event: Event) {
     return this.http.put<Event>(`${environment.apiUrl}/events/${id}`, {
       name: event.name,
       eventType: event.eventType,
       date: event.date,
-      description: event.description
+      description: event.description,
+      image: event.image ? event.image : ''
     });
   }
 
@@ -118,5 +121,15 @@ export class EventService {
   setErrorMessage(message) {
     this.errorMessage = message;
     this.errorMessageChanged.next(this.errorMessage);
+  }
+
+  getImage(imageName) {
+    return `${environment.apiUrl}/image/${imageName}`;
+  }
+
+  uploadEventImageRequest(id: number, file: File) {
+    const formData = new FormData();
+    formData.append('image', file);
+    return this.http.post<string>(`${environment.apiUrl}/image-upload/${id}`, formData);
   }
 }
