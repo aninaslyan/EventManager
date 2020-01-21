@@ -13,10 +13,16 @@
                     class="fadeIn first"
                     formControlName="email"
                     placeholder="email">
-                <p
-                    class="error-p"
-                    *ngIf="!signInForm.get('email').valid && signInForm.get('email').touched"
-                >Email field is required</p>
+                <div *ngIf="signInForm.get('email').touched && signInForm.get('email').invalid">
+                    <p
+                        class="error-p"
+                        *ngIf="signInForm.get('email').errors.required"
+                    >Email field is required</p>
+                    <p
+                        class="error-p"
+                        *ngIf="signInForm.get('email').errors.email"
+                    >Email field is in wrong format</p>
+                </div>
             </div>
             <div>
                 <label class="fadeIn second" for="password">Password</label>
@@ -28,7 +34,7 @@
                     placeholder="password">
                 <p
                     class="error-p"
-                    *ngIf="!signInForm.get('password').valid && signInForm.get('password').touched"
+                    *ngIf="signInForm.get('password').touched && signInForm.get('password').invalid"
                 >Password field is required</p>
             </div>
             <button
