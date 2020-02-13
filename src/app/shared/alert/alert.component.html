@@ -1,11 +1,11 @@
 <div
-    *ngIf="alert"
+    *ngIf="show"
     class="alert"
-    [ngStyle]="{color: alert.color, backgroundColor: alert.backgroundColor}"
+    [ngStyle]="{color: alertProps.color, backgroundColor: alertProps.backgroundColor}"
 >
-    {{alert.title}}
+    {{alertProps.title}}
     <button
-        *ngIf="alert.closable"
+        *ngIf="alertProps.closable"
         type="button"
         class="close"
         data-dismiss="alert"

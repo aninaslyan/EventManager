@@ -3,15 +3,12 @@
 <!--    *ngIf="events.length === 0">-->
 <!--    There is no event to show-->
 <!--</p>-->
-<!--<p-->
-<!--    class="error-p"-->
-<!--    *ngIf="error"-->
-<!--&gt;An error occurred</p>-->
 <div class="row">
     <div class="col" *ngFor="let event of events">
         <div class="card shadow-sm">
             <img class="card-img-top"
                  [src]="event.image? eventService.getImage(event.image) : noImagePath"
+                 [alt]="event.name"
             >
             <div class="card-body">
                 <h4 class="card-title">{{event.name}}</h4>

@@ -12,6 +12,7 @@ import { AuthService } from './auth.service';
 export class AuthComponent implements OnInit {
   signInForm: FormGroup;
   errorRes: string;
+  showErrorAlert = false;
 
   constructor(private authService: AuthService, private router: Router) {
   }
@@ -34,6 +35,11 @@ export class AuthComponent implements OnInit {
           this.router.navigate(['/events-grid']);
         }, error => {
           this.errorRes = error;
+          this.showErrorAlert = true;
         });
+  }
+
+  alertShowChanged(show: boolean) {
+   this.showErrorAlert = show;
   }
 }

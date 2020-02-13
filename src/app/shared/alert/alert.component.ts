@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 interface IAlertOptions {
   title: string;
@@ -13,7 +13,9 @@ interface IAlertOptions {
   styleUrls: ['./alert.component.css']
 })
 export class AlertComponent implements OnInit {
-  @Input() alert: IAlertOptions;
+  @Input() show: boolean;
+  @Output() showChanged = new EventEmitter<boolean>();
+  @Input() alertProps: IAlertOptions;
 
   constructor() { }
 
@@ -24,6 +26,7 @@ export class AlertComponent implements OnInit {
   }
 
   onClose() {
-    this.alert = null;
+    this.show = false;
+    this.showChanged.emit(false);
   }
 }

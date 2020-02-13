@@ -47,8 +47,10 @@
     </div>
     <div class="alert-div">
         <app-alert
-            *ngIf="errorRes && signInForm.get('email').valid && signInForm.get('password').valid"
-            [alert]="{title: errorRes, color: '#721c24', backgroundColor: '#f8d7da', closable: true}"
+            *ngIf="showErrorAlert"
+            [show]="showErrorAlert"
+            (showChanged)="alertShowChanged($event)"
+            [alertProps]="{title: errorRes, color: '#721c24', backgroundColor: '#f8d7da', closable: true}"
         ></app-alert>
     </div>
 </div>

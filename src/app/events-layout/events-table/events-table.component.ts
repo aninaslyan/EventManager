@@ -19,9 +19,12 @@ export class EventsTableComponent implements OnInit, OnDestroy {
   currentPage = 1;
   dialogMessage: string;
   eventId: number;
-  actionMessage: string;
-  errorMessage: string;
   currentPageChangedSubscription: Subscription;
+  // messages
+  actionMessage: string;
+  showActionAlert = false;
+  errorMessage: string;
+  showErrorAlert = false;
 
   constructor(private eventService: EventService,
               private paginationService: PaginationService,
@@ -29,7 +32,7 @@ export class EventsTableComponent implements OnInit, OnDestroy {
               private router: Router) {
   }
 
-  fetchEventsFollowChanges(pageNum) {
+  fetchEventsFollowChanges(pageNum: number) {
     this.eventService.fetchEventsAndTypes(pageNum, this.limit)
         .subscribe(response => {
           console.log('fetch', pageNum);
@@ -62,11 +65,13 @@ export class EventsTableComponent implements OnInit, OnDestroy {
     this.eventService.eventMessageChanged
         .subscribe((message: string) => {
           this.actionMessage = message;
+          this.showActionAlert = true;
         });
 
     this.eventService.errorMessageChanged
         .subscribe((message: string) => {
           this.errorMessage = message;
+          this.showErrorAlert = true;
         });
   }
 
@@ -102,5 +107,13 @@ export class EventsTableComponent implements OnInit, OnDestroy {
       this.eventsSubscription.unsubscribe();
     }
     this.currentPageChangedSubscription.unsubscribe();
+  }
+
+  alertActionShowChanged(show: boolean) {
+    this.showActionAlert = show;
+  }
+
+  alertErrorShowChanged(show: boolean) {
+    this.showErrorAlert = show;
   }
 }

@@ -26,6 +26,7 @@ export class EventService {
   constructor(private http: HttpClient) {
   }
 
+  // todo move fetching methods to another EventFetchService service
   fetchEventsByPage(pageNum: number, limit: number) {
     const params = new HttpParams()
         .set('_page', String(pageNum))

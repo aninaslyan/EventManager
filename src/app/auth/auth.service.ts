@@ -42,19 +42,13 @@ export class AuthService {
         errorMessage = 'There is no user with this email';
         break;
       default:
-        errorMessage = 'An unknown error occurred';
+        errorMessage = 'An unknown server error occurred';
     }
 
     return throwError(errorMessage);
   }
 
-  private handleAuthentication(name: string, surname: string, token: string, isAdmin: boolean) {
-    const user = new User(token, name, surname, isAdmin);
-    this.user.next(user);
-    Cookies.set('token', token);
-  }
-
-  getUserDataFromToken(token: string) {
+  private static getUserDataFromToken(token: string) {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const jsonPayload = decodeURIComponent(
@@ -72,30 +66,35 @@ export class AuthService {
     }
   }
 
-  getUserToken() {
-    // todo get token from user: BehaviorSubject, this is more secure
-    return Cookies.get('token');
-  }
-
-  isTokenValid(token: string) {
+  private static isTokenValid(token: string) {
     const tokenRegExp = /^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/g;
     if (tokenRegExp.test(token)) {
-      const user: User = this.makeUserFromToken(token);
+      const user: User = AuthService.makeUserFromToken(token);
       // todo user.name, user.srName is not proper to check (can be another type of data to get back)
       return !!user && !!user.name && !!user.srName;
     }
     return false;
   }
 
-  makeUserFromToken(token: string) {
+  private static makeUserFromToken(token: string) {
     let loadedUser: IUserData;
-    loadedUser = this.getUserDataFromToken(token);
+    loadedUser = AuthService.getUserDataFromToken(token);
 
     if (loadedUser) {
       return new User(token, loadedUser.name, loadedUser.srName, loadedUser.isAdmin);
     } else {
       return null;
     }
+  }
+
+  private handleAuthentication(name: string, surname: string, token: string, isAdmin: boolean) {
+    const user = new User(token, name, surname, isAdmin);
+    this.user.next(user);
+    Cookies.set('token', token);
+  }
+
+  getUserToken() {
+    return Cookies.get('token');
   }
 
   logIn(email: string, password: string) {
@@ -116,14 +115,14 @@ export class AuthService {
     const token = Cookies.get('token');
 
     if (this.isAuthenticated()) {
-      user = this.makeUserFromToken(token);
+      user = AuthService.makeUserFromToken(token);
       this.user.next(user);
     }
   }
 
   isAuthenticated() {
     const token = Cookies.get('token');
-    return !!token && this.isTokenValid(token);
+    return !!token && AuthService.isTokenValid(token);
   }
 
   isAdmin() {
