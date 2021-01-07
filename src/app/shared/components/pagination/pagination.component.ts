@@ -17,8 +17,12 @@ export class PaginationComponent implements OnChanges, OnInit {
   constructor(private paginationService: PaginationService, private router: Router, private route: ActivatedRoute) {
   }
 
+  private static setPageNumbers(total: number, limit: number) {
+    return Array.from({ length: total % limit === 0 ? total / limit : total / limit + 1 }, (v, k) => k + 1);
+  }
+
   ngOnChanges(changes: SimpleChanges) {
-    this.pageNums = this.paginationService.setPageNumbers(this.totalCount, this.limit);
+    this.pageNums = PaginationComponent.setPageNumbers(this.totalCount, this.limit);
   }
 
   onPageNum(num: number) {

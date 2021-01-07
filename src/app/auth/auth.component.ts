@@ -21,13 +21,6 @@ export class AuthComponent implements OnInit {
     this.initForm();
   }
 
-  private initForm() {
-    this.signInForm = new FormGroup({
-      email: new FormControl(null, [Validators.required, Validators.email]),
-      password: new FormControl(null, Validators.required)
-    });
-  }
-
   onFormSubmit() {
     const formValue = this.signInForm.value;
     this.authService.logIn(formValue.email, formValue.password)
@@ -41,5 +34,12 @@ export class AuthComponent implements OnInit {
 
   alertShowChanged(show: boolean) {
    this.showErrorAlert = show;
+  }
+
+  private initForm() {
+    this.signInForm = new FormGroup({
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      password: new FormControl(null, Validators.required)
+    });
   }
 }

@@ -5,14 +5,12 @@
 </button>
 
 <app-alert
-    *ngIf="showActionAlert"
     [show]="showActionAlert"
     (showChanged)="alertActionShowChanged($event)"
     [alertProps]="{title: actionMessage, color: '#155724', backgroundColor: '#d4edda', closable: true}"
 ></app-alert>
 
 <app-alert
-    *ngIf="showErrorAlert"
     [show]="showErrorAlert"
     (showChanged)="alertErrorShowChanged($event)"
     [alertProps]="{title: errorMessage, color: '#721c24', backgroundColor: '#f8d7da', closable: false}"

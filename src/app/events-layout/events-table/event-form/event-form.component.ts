@@ -3,8 +3,9 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 
-import { EventService, IEventTypes } from '../../event.service';
-import { Event } from '../../event.model';
+import { EventService } from '../../event.service';
+import { Event } from '../../../shared/models';
+import { IEventTypes } from '../../../shared/interfaces';
 
 @Component({
   selector: 'app-event-form',
@@ -33,7 +34,12 @@ export class EventFormComponent implements OnInit {
   eventDescription = '';
   eventImage;
 
-  constructor(private route: ActivatedRoute, private eventService: EventService, private router: Router, public datePipe: DatePipe) {
+  constructor(
+      public datePipe: DatePipe,
+      public eventService: EventService,
+      private route: ActivatedRoute,
+      private router: Router
+  ) {
   }
 
   ngOnInit() {
@@ -66,37 +72,12 @@ export class EventFormComponent implements OnInit {
         });
   }
 
-  private handleForm() {
-    this.getEventTypes();
-    if (this.editMode) {
-      this.getEventInitForm();
-    }
-  }
-
   setFormValues() {
     this.eventName = this.eventToEdit.name;
     this.eventType = Number(this.eventToEdit.eventType);
     this.eventDate = this.eventToEdit.date; // '2019-12-28T12:56' "YYYY-MM-DDThh:mm"
     this.eventDescription = this.eventToEdit.description;
     this.eventImage = this.eventToEdit.image;
-  }
-
-  private initForm() {
-    this.eventForm = new FormGroup({
-      name: new FormControl({ value: this.eventName, disabled: this.editMode }, [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(12)
-      ]),
-      type: new FormControl({ value: this.eventType, disabled: this.editMode }, Validators.required),
-      date: new FormControl(this.eventDate, Validators.required),
-      description: new FormControl(this.eventDescription, [
-        Validators.required,
-        Validators.minLength(30),
-        Validators.maxLength(100)
-      ]),
-      image: new FormControl(null)
-    });
   }
 
   onFormSubmit() {
@@ -161,5 +142,30 @@ export class EventFormComponent implements OnInit {
 
   navigateToTable() {
     this.router.navigate(['/events-table']);
+  }
+
+  private initForm() {
+    this.eventForm = new FormGroup({
+      name: new FormControl({ value: this.eventName, disabled: this.editMode }, [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(12)
+      ]),
+      type: new FormControl({ value: this.eventType, disabled: this.editMode }, Validators.required),
+      date: new FormControl(this.eventDate, Validators.required),
+      description: new FormControl(this.eventDescription, [
+        Validators.required,
+        Validators.minLength(30),
+        Validators.maxLength(100)
+      ]),
+      image: new FormControl(null)
+    });
+  }
+
+  private handleForm() {
+    this.getEventTypes();
+    if (this.editMode) {
+      this.getEventInitForm();
+    }
   }
 }

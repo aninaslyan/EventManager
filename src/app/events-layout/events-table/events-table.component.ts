@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Event } from '../event.model';
+import { Event } from '../../shared/models';
 import { EventService } from '../event.service';
-import { PaginationService } from '../../pagination/pagination.service';
+import { PaginationService } from '../../shared/components/pagination/pagination.service';
 
 @Component({
   selector: 'app-events-table',

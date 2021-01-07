@@ -6,21 +6,8 @@ import { Router } from '@angular/router';
 import Cookies from 'js-cookie';
 
 import { environment } from '../../environments/environment';
-import { User } from './user.model';
-
-export interface IAuthResponseData {
-  token: string;
-  user: IUserData;
-}
-
-export interface IUserData {
-  id: number;
-  name: string;
-  srName: string;
-  email: string;
-  password: string;
-  isAdmin: boolean;
-}
+import { User } from '../shared/models';
+import { IUserData, IAuthResponseData } from '../shared/interfaces';
 
 @Injectable({
   providedIn: 'root'

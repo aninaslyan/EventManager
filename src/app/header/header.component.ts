@@ -17,12 +17,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService) {
   }
 
-  onLogOut() {
-    this.authService.logOut();
-  }
-
   ngOnInit(): void {
     this.subscribeToUser();
+  }
+
+  onLogOut() {
+    this.authService.logOut();
   }
 
   subscribeToUser() {

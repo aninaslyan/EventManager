@@ -12,10 +12,10 @@ import { EventsLayoutComponent } from './events-layout/events-layout.component';
 import { EventsGridComponent } from './events-layout/events-grid/events-grid.component';
 import { EventsTableComponent } from './events-layout/events-table/events-table.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
-import { PaginationComponent } from './pagination/pagination.component';
-import { DialogBoxComponent } from './shared/dialog-box/dialog-box.component';
+import { PaginationComponent } from './shared/components';
+import { DialogBoxComponent } from './shared/components'; // todo - try Sergey's tsconfig shortcuts
 import { EventFormComponent } from './events-layout/events-table/event-form/event-form.component';
-import { AlertComponent } from './shared/alert/alert.component';
+import { AlertComponent } from './shared/components';
 
 @NgModule({
   declarations: [

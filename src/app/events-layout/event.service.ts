@@ -3,13 +3,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { forkJoin, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { Event } from './event.model';
 import { environment } from '../../environments/environment';
-
-export interface IEventTypes {
-  value: number;
-  type: string;
-}
+import { Event } from '../shared/models';
+import { IEventTypes } from '../shared/interfaces';
 
 @Injectable({
   providedIn: 'root'

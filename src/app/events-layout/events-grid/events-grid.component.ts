@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 
 import { EventService } from '../event.service';
-import { Event } from '../event.model';
+import { Event } from '../../shared/models';
 
 @Component({
   selector: 'app-events-grid',
@@ -13,7 +13,7 @@ export class EventsGridComponent implements OnInit {
   events: Event[];
   noImagePath = '../../../assets/img/noImage.png';
 
-  constructor(private eventService: EventService) {
+  constructor(public eventService: EventService) {
   }
 
   ngOnInit(): void {
