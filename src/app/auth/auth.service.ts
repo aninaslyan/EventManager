@@ -6,8 +6,8 @@ import { Router } from '@angular/router';
 import Cookies from 'js-cookie';
 
 import { environment } from '../../environments/environment';
-import { User } from '../shared/models';
-import { IUserData, IAuthResponseData } from '../shared/interfaces';
+import { User } from '@shared/models';
+import { IUserData, IAuthResponseData } from '@shared/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -39,10 +39,10 @@ export class AuthService {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const jsonPayload = decodeURIComponent(
-        atob(base64)
-            .split('')
-            .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(- 2))
-            .join('')
+      atob(base64)
+        .split('')
+        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
     );
 
     try {
@@ -74,12 +74,6 @@ export class AuthService {
     }
   }
 
-  private handleAuthentication(name: string, surname: string, token: string, isAdmin: boolean) {
-    const user = new User(token, name, surname, isAdmin);
-    this.user.next(user);
-    Cookies.set('token', token);
-  }
-
   getUserToken() {
     return Cookies.get('token');
   }
@@ -90,10 +84,10 @@ export class AuthService {
       password
     })
       .pipe(
-          catchError(AuthService.handleError),
-          tap(resData => {
-            this.handleAuthentication(resData.user.name, resData.user.srName, resData.token, resData.user.isAdmin);
-          })
+        catchError(AuthService.handleError),
+        tap(resData => {
+          this.handleAuthentication(resData.user.name, resData.user.srName, resData.token, resData.user.isAdmin);
+        })
       );
   }
 
@@ -114,12 +108,11 @@ export class AuthService {
 
   isAdmin() {
     let isAdmin = false;
+    const userValue = this.user.getValue();
 
-    this.user.subscribe(user => {
-      if (user) {
-        isAdmin = user.isAdmin;
-      }
-    });
+    if (userValue) {
+      isAdmin = userValue.isAdmin;
+    }
     return isAdmin;
   }
 
@@ -127,5 +120,11 @@ export class AuthService {
     this.user.next(null);
     Cookies.remove('token');
     this.router.navigate(['/login']);
+  }
+
+  private handleAuthentication(name: string, surname: string, token: string, isAdmin: boolean) {
+    const user = new User(token, name, surname, isAdmin);
+    this.user.next(user);
+    Cookies.set('token', token);
   }
 }

@@ -4,8 +4,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 
 import { EventService } from '../../event.service';
-import { Event } from '../../../shared/models';
-import { IEventTypes } from '../../../shared/interfaces';
+import { Event } from '@shared/models';
+import { IEventTypes } from '@shared/interfaces';
 
 @Component({
   selector: 'app-event-form',

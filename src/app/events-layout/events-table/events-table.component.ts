@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Event } from '../../shared/models';
+import { Event } from '@shared/models';
 import { EventService } from '../event.service';
-import { PaginationService } from '../../shared/components/pagination/pagination.service';
+import { PaginationService } from '@shared/components/pagination/pagination.service';
 
 @Component({
   selector: 'app-events-table',
@@ -13,6 +13,7 @@ import { PaginationService } from '../../shared/components/pagination/pagination
 })
 export class EventsTableComponent implements OnInit, OnDestroy {
   events: Event[];
+  eventsNotConverted: Event[];
   eventsSubscription: Subscription;
   totalCount: number;
   limit = 10;
@@ -37,6 +38,7 @@ export class EventsTableComponent implements OnInit, OnDestroy {
         .subscribe(response => {
           console.log('fetch', pageNum);
           this.totalCount = Number(response[0].headers.get('X-Total-Count'));
+          this.eventsNotConverted = JSON.parse(JSON.stringify(response[0].body));
           this.events = this.eventService.getEventTypeFromNumber(response[0].body, response[1]);
           this.eventsSubscription = this.eventService.eventsChanged
               .subscribe(evn => {

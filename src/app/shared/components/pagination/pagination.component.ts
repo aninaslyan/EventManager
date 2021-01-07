@@ -30,23 +30,23 @@ export class PaginationComponent implements OnChanges, OnInit {
     this.paginationService.currentPageChanged.next(this.currentPage);
     // is necessary in case of external changes (e.g delete)
     this.paginationService.currentPageChanged
-        .subscribe(page => {
-          if (this.currentPage !== page) {
-            this.currentPage = page;
-          }
-        });
+      .subscribe(page => {
+        if (this.currentPage !== page) {
+          this.currentPage = page;
+        }
+      });
   }
 
   ngOnInit() {
     this.route.queryParams
-        .subscribe((params: Params) => {
-          if (params.page && params.page > 0) {
-            this.currentPage = Number(params.page);
-          } else {
-            this.currentPage = 1;
-          }
-          this.onPageNum(this.currentPage);
-        });
+      .subscribe((params: Params) => {
+        if (params.page && params.page > 0) {
+          this.currentPage = Number(params.page);
+        } else {
+          this.currentPage = 1;
+        }
+        this.onPageNum(this.currentPage);
+      });
   }
 
   onPrevClick() {

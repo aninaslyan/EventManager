@@ -1,4 +1,4 @@
 export interface IEventTypes {
-    value: number;
-    type: string;
+  value: number;
+  type: string;
 }
