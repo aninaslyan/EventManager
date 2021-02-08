@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
   templateUrl: './events-layout.component.html',
 })
 export class EventsLayoutComponent implements OnInit {
+
   constructor(private router: Router) {
   }
 

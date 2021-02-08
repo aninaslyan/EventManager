@@ -74,11 +74,11 @@ export class AuthService {
     }
   }
 
-  getUserToken() {
+  public getUserToken() {
     return Cookies.get('token');
   }
 
-  logIn(email: string, password: string) {
+  public logIn(email: string, password: string) {
     return this.http.post<IAuthResponseData>(`${environment.apiUrl}/login`, {
       email,
       password
@@ -91,7 +91,7 @@ export class AuthService {
       );
   }
 
-  autoLogIn() {
+  public autoLogIn() {
     let user: User;
     const token = Cookies.get('token');
 
@@ -101,12 +101,12 @@ export class AuthService {
     }
   }
 
-  isAuthenticated() {
+  public isAuthenticated() {
     const token = Cookies.get('token');
     return !!token && AuthService.isTokenValid(token);
   }
 
-  isAdmin() {
+  public isAdmin() {
     let isAdmin = false;
     const userValue = this.user.getValue();
 
@@ -116,7 +116,7 @@ export class AuthService {
     return isAdmin;
   }
 
-  logOut() {
+  public logOut() {
     this.user.next(null);
     Cookies.remove('token');
     this.router.navigate(['/login']);

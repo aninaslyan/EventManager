@@ -11,8 +11,8 @@ import { PaginationService } from './pagination.service';
 export class PaginationComponent implements OnChanges, OnInit {
   @Input() totalCount: number;
   @Input() limit: number;
-  currentPage: number;
-  pageNums: Array<number>;
+  public currentPage: number;
+  public pageNums: Array<number>;
 
   constructor(private paginationService: PaginationService, private router: Router, private route: ActivatedRoute) {
   }
@@ -23,18 +23,6 @@ export class PaginationComponent implements OnChanges, OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     this.pageNums = PaginationComponent.setPageNumbers(this.totalCount, this.limit);
-  }
-
-  onPageNum(num: number) {
-    this.currentPage = num;
-    this.paginationService.currentPageChanged.next(this.currentPage);
-    // is necessary in case of external changes (e.g delete)
-    this.paginationService.currentPageChanged
-      .subscribe(page => {
-        if (this.currentPage !== page) {
-          this.currentPage = page;
-        }
-      });
   }
 
   ngOnInit() {
@@ -49,13 +37,25 @@ export class PaginationComponent implements OnChanges, OnInit {
       });
   }
 
-  onPrevClick() {
+  public onPageNum(num: number) {
+    this.currentPage = num;
+    this.paginationService.currentPageChanged.next(this.currentPage);
+    // is necessary in case of external changes (e.g delete)
+    this.paginationService.currentPageChanged
+      .subscribe(page => {
+        if (this.currentPage !== page) {
+          this.currentPage = page;
+        }
+      });
+  }
+
+  public onPrevClick() {
     if (this.currentPage - 1 >= 1) {
       this.onPageNum(this.currentPage - 1);
     }
   }
 
-  onNextClick() {
+  public onNextClick() {
     if (this.currentPage < this.pageNums.length) {
       this.onPageNum(this.currentPage + 1);
     }

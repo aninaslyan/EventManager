@@ -22,7 +22,7 @@ export class AlertComponent implements OnChanges {
     }
   }
 
-  onClose() {
+  public onClose() {
     this.show = false;
     this.showChanged.emit(false);
   }

@@ -10,9 +10,9 @@ import { Event } from '@shared/models';
   styleUrls: ['./events-grid.component.css']
 })
 export class EventsGridComponent implements OnInit {
-  events: Event[];
-  eventsNotConverted: Event[];
-  noImagePath = '../../../assets/img/noImage.png';
+  public events: Event[];
+  public eventsNotConverted: Event[];
+  public noImagePath = '../../../assets/img/noImage.png';
 
   constructor(public eventService: EventService) {
   }
@@ -21,7 +21,7 @@ export class EventsGridComponent implements OnInit {
     this.getCompleteEvents();
   }
 
-  getCompleteEvents() {
+  private getCompleteEvents() {
     forkJoin(this.eventService.fetchEvents(), this.eventService.fetchEventTypes())
       .subscribe(response => {
         this.eventsNotConverted = JSON.parse(JSON.stringify(response[0].body));

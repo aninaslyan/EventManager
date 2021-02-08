@@ -21,7 +21,7 @@ export class AuthComponent implements OnInit {
     this.initForm();
   }
 
-  onFormSubmit() {
+  public onFormSubmit() {
     const formValue = this.signInForm.value;
     this.authService.logIn(formValue.email, formValue.password)
       .subscribe(resData => {
@@ -32,7 +32,7 @@ export class AuthComponent implements OnInit {
       });
   }
 
-  alertShowChanged(show: boolean) {
+  public alertShowChanged(show: boolean) {
     this.showErrorAlert = show;
   }
 
