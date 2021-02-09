@@ -7,9 +7,7 @@ import { environment } from '../../environments/environment';
 import { Event } from '@shared/models';
 import { IEventTypes } from '@shared/interfaces';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class EventService {
   private events: Event[] = [];
   eventsChanged: Subject<Event[]> = new Subject();

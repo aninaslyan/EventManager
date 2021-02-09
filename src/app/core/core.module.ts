@@ -1,19 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
 
 import { AuthInterceptorService } from '../auth/auth-interceptor.service';
-import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   imports: [
-    CommonModule,
-    RouterModule
+    CommonModule
   ],
-  declarations: [
-    HeaderComponent,
-  ],
+  declarations: [],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
@@ -21,8 +16,6 @@ import { HeaderComponent } from './header/header.component';
       multi: true
     }
   ],
-  exports: [
-    HeaderComponent
-  ]
+  exports: []
 })
 export class CoreModule {}

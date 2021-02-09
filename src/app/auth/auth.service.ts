@@ -9,9 +9,7 @@ import { environment } from '../../environments/environment';
 import { User } from '@shared/models';
 import { IUserData, IAuthResponseData } from '@shared/interfaces';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AuthService {
   user = new BehaviorSubject<User>(null);
 
