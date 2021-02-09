@@ -1,27 +1,26 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
-import { HeaderComponent } from './header/header.component';
 import { EventsLayoutComponent } from './events-layout/events-layout.component';
 import { EventsGridComponent } from './events-layout/events-grid/events-grid.component';
 import { EventsTableComponent } from './events-layout/events-table/events-table.component';
 import { EventFormComponent } from './events-layout/events-table/event-form/event-form.component';
-import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { PaginationComponent } from '@shared/components';
 import { DialogBoxComponent } from '@shared/components';
 import { AlertComponent } from '@shared/components';
+
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthComponent,
-    HeaderComponent,
     EventsLayoutComponent,
     EventsGridComponent,
     EventsTableComponent,
@@ -34,14 +33,10 @@ import { AlertComponent } from '@shared/components';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CoreModule
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptorService,
-      multi: true
-    },
     DatePipe
   ],
   bootstrap: [AppComponent]
