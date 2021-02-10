@@ -3,6 +3,7 @@ import { DatePipe } from '@angular/common';
 
 import { AuthComponent } from './auth.component';
 import { AuthService } from './auth.service';
+import { AuthGuardLogin, AuthGuardAdmin, AuthGuard } from './guards';
 
 import { SharedModule } from '@shared/shared.module';
 
@@ -15,7 +16,10 @@ import { SharedModule } from '@shared/shared.module';
   ],
   providers: [
     DatePipe,
-    AuthService,
+    AuthService, // todo - be cautious of lazily loading
+    AuthGuardLogin,
+    AuthGuardAdmin,
+    AuthGuard
   ],
   exports: []
 })
