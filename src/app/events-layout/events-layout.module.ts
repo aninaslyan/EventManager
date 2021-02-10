@@ -9,10 +9,12 @@ import { HeaderComponent } from './header/header.component';
 import { EventService } from './event.service';
 
 import { SharedModule } from '@shared/shared.module';
+import { EventsLayoutRoutingModule } from './events-layout-routing.module';
 
 @NgModule({
   imports: [
-    SharedModule
+    SharedModule,
+    EventsLayoutRoutingModule
   ],
   declarations: [
     EventsLayoutComponent,

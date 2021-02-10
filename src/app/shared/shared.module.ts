@@ -3,13 +3,11 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { PaginationComponent, DialogBoxComponent, AlertComponent } from '@shared/components';
-import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule
   ],
   declarations: [
     PaginationComponent,
@@ -22,8 +20,7 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     PaginationComponent,
     DialogBoxComponent,
-    AlertComponent,
-    RouterModule
+    AlertComponent
   ]
 })
 export class SharedModule {}

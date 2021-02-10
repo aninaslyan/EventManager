@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 import { AuthComponent } from './auth.component';
 import { AuthService } from './auth.service';
@@ -10,6 +11,7 @@ import { SharedModule } from '@shared/shared.module';
 @NgModule({
   imports: [
     SharedModule,
+    RouterModule
   ],
   declarations: [
     AuthComponent

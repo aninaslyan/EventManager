@@ -140,7 +140,7 @@ export class EventFormComponent implements OnInit {
   }
 
   private navigateToTable() {
-    this.router.navigate(['/events-table']);
+    this.router.navigate(['/event/table']);
   }
 
   private initForm() {

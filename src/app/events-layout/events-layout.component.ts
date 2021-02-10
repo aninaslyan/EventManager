@@ -12,7 +12,7 @@ export class EventsLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.router.url === '/event') {
-      this.router.navigate(['/events-grid']);
+      this.router.navigate(['/event/grid']);
     }
   }
 }

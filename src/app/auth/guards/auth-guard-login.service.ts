@@ -15,7 +15,7 @@ export class AuthGuardLogin implements CanActivate {
       return true;
     }
 
-    this.router.navigate(['/events-grid']);
+    this.router.navigate(['/event/grid']);
     return false;
   }
 }
