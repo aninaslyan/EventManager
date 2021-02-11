@@ -1,28 +1,25 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { takeUntil } from 'rxjs/Operators';
 
 import { AuthService } from '../../auth/auth.service';
+import { WithDestroy } from '@shared/utils';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
-  userSubscription: Subscription;
+export class HeaderComponent extends WithDestroy() implements OnInit {
   isAuthenticated = false;
   isUserAdmin = false;
   userName: string;
 
   constructor(private authService: AuthService) {
+    super();
   }
 
   ngOnInit(): void {
     this.subscribeToUser();
-  }
-
-  ngOnDestroy(): void {
-    this.userSubscription.unsubscribe();
   }
 
   public onLogOut() {
@@ -30,7 +27,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToUser() {
-    this.userSubscription = this.authService.user
+    this.authService.user
+      .pipe(takeUntil(this.destroy$))
       .subscribe(user => {
         if (user) {
           this.isAuthenticated = !!user;

@@ -1,34 +1,30 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/Operators';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Event } from '@shared/models';
 import { EventService } from '../event.service';
 import { PaginationService } from '@shared/components/pagination/pagination.service';
+import { WithDestroy } from '@shared/utils';
 
 @Component({
   selector: 'app-events-table',
   templateUrl: './events-table.component.html',
   styleUrls: ['./events-table.component.css']
 })
-export class EventsTableComponent implements OnInit, OnDestroy {
+export class EventsTableComponent extends WithDestroy() implements OnInit {
   public events: Event[];
   public eventsNotConverted: Event[];
   public totalCount: number;
   public limit = 10;
   public dialogMessage: string;
-  // messages
   public actionMessage: string;
   public showActionAlert = false;
   public errorMessage: string;
   public showErrorAlert = false;
   public orderByField: string;
-  private eventsSubscription: Subscription;
   private currentPage = 1;
   private eventId: number;
-  private currentPageChangedSubscription: Subscription;
-  private ngUnsubscribe = new Subject();
 
   constructor(
     private eventService: EventService,
@@ -36,42 +32,14 @@ export class EventsTableComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router
   ) {
+    super();
   }
 
   ngOnInit(): void {
-    this.currentPageChangedSubscription = this.paginationService.currentPageChanged
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe(currPage => {
-        console.log('currentPageChanged');
-        if (this.currentPage !== currPage) {
-          this.currentPage = currPage;
-          this.fetchEventsFollowChanges(this.currentPage);
-        }
-      });
+    this.subscribingCurrentPageChange();
     // is needed only first time
     this.fetchEventsFollowChanges(this.currentPage);
-
-    // messages
-    this.eventService.eventMessageChanged
-      .subscribe((message: string) => {
-        this.actionMessage = message;
-        this.showActionAlert = true;
-      });
-
-    this.eventService.errorMessageChanged
-      .subscribe((message: string) => {
-        this.errorMessage = message;
-        this.showErrorAlert = true;
-      });
-  }
-
-  ngOnDestroy(): void {
-    if (this.eventsSubscription) {
-      this.eventsSubscription.unsubscribe();
-    }
-    this.currentPageChangedSubscription.unsubscribe();
+    this.subscribingMessages();
   }
 
   public onCancel() {
@@ -86,17 +54,7 @@ export class EventsTableComponent implements OnInit, OnDestroy {
   public onDeleteSubmit() {
     this.eventService.deleteEventRequest(this.eventId)
       .subscribe(() => {
-        this.eventService.deleteEventFromList(this.eventId);
-        this.eventService.eventsChanged
-          .subscribe(events => {
-            this.events = events;
-          });
-
-        if (this.events.length === 0) {
-          this.currentPage = this.currentPage - 1;
-        }
-        this.paginationService.currentPageChanged.next(this.currentPage);
-        this.fetchEventsFollowChanges(this.currentPage);
+          this.deleteEvent();
       });
     this.dialogMessage = null;
   }
@@ -116,10 +74,8 @@ export class EventsTableComponent implements OnInit, OnDestroy {
         this.totalCount = Number(response[0].headers.get('X-Total-Count'));
         this.eventsNotConverted = JSON.parse(JSON.stringify(response[0].body));
         this.events = this.eventService.getEventTypeFromNumber(response[0].body, response[1]);
-        this.eventsSubscription = this.eventService.eventsChanged
-          .pipe(
-            takeUntil(this.ngUnsubscribe)
-          )
+        this.eventService.eventsChanged
+          .pipe(takeUntil(this.destroy$))
           .subscribe(evn => {
             this.events = evn;
           });
@@ -128,5 +84,48 @@ export class EventsTableComponent implements OnInit, OnDestroy {
         console.log(this.events);
       });
     this.router.navigate([], {queryParams: {page: pageNum}});
+  }
+
+  private deleteEvent() {
+    this.eventService.deleteEventFromList(this.eventId);
+    this.eventService.eventsChanged
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(events => {
+        this.events = events;
+      });
+
+    if (this.events.length === 0) {
+      this.currentPage = this.currentPage - 1;
+    }
+    this.paginationService.currentPageChanged.next(this.currentPage);
+    this.fetchEventsFollowChanges(this.currentPage);
+  }
+
+  private subscribingCurrentPageChange() {
+    this.paginationService.currentPageChanged
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(currPage => {
+        console.log('currentPageChanged');
+        if (this.currentPage !== currPage) {
+          this.currentPage = currPage;
+          this.fetchEventsFollowChanges(this.currentPage);
+        }
+      });
+  }
+
+  private subscribingMessages() {
+    this.eventService.eventMessageChanged
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((message: string) => {
+        this.actionMessage = message;
+        this.showActionAlert = true;
+      });
+
+    this.eventService.errorMessageChanged
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((message: string) => {
+        this.errorMessage = message;
+        this.showErrorAlert = true;
+      });
   }
 }
