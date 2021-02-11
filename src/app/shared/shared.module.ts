@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { PaginationComponent, DialogBoxComponent, AlertComponent } from '@shared/components';
+import { OrderByPipe } from '@shared/pipes';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { PaginationComponent, DialogBoxComponent, AlertComponent } from '@shared
     PaginationComponent,
     DialogBoxComponent,
     AlertComponent,
+    OrderByPipe
   ],
   providers: [],
   exports: [
@@ -20,7 +22,8 @@ import { PaginationComponent, DialogBoxComponent, AlertComponent } from '@shared
     ReactiveFormsModule,
     PaginationComponent,
     DialogBoxComponent,
-    AlertComponent
+    AlertComponent,
+    OrderByPipe
   ]
 })
 export class SharedModule {}

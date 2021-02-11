@@ -23,6 +23,7 @@ export class EventsTableComponent implements OnInit, OnDestroy {
   public showActionAlert = false;
   public errorMessage: string;
   public showErrorAlert = false;
+  public orderByField: string;
   private eventsSubscription: Subscription;
   private currentPage = 1;
   private eventId: number;
