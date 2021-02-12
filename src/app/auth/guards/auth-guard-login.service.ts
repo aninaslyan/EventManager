@@ -4,9 +4,7 @@ import { Observable } from 'rxjs';
 
 import { AuthService } from '../auth.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AuthGuardLogin implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {
   }
@@ -17,7 +15,7 @@ export class AuthGuardLogin implements CanActivate {
       return true;
     }
 
-    this.router.navigate(['/events-grid']);
+    this.router.navigate(['/event/grid']);
     return false;
   }
 }

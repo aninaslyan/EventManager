@@ -6,25 +6,10 @@ import { Router } from '@angular/router';
 import Cookies from 'js-cookie';
 
 import { environment } from '../../environments/environment';
-import { User } from './user.model';
+import { User } from '@shared/models';
+import { IUserData, IAuthResponseData } from '@shared/interfaces';
 
-export interface IAuthResponseData {
-  token: string;
-  user: IUserData;
-}
-
-export interface IUserData {
-  id: number;
-  name: string;
-  srName: string;
-  email: string;
-  password: string;
-  isAdmin: boolean;
-}
-
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AuthService {
   user = new BehaviorSubject<User>(null);
 
@@ -52,10 +37,10 @@ export class AuthService {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const jsonPayload = decodeURIComponent(
-        atob(base64)
-            .split('')
-            .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(- 2))
-            .join('')
+      atob(base64)
+        .split('')
+        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
     );
 
     try {
@@ -87,30 +72,24 @@ export class AuthService {
     }
   }
 
-  private handleAuthentication(name: string, surname: string, token: string, isAdmin: boolean) {
-    const user = new User(token, name, surname, isAdmin);
-    this.user.next(user);
-    Cookies.set('token', token);
-  }
-
-  getUserToken() {
+  public getUserToken() {
     return Cookies.get('token');
   }
 
-  logIn(email: string, password: string) {
+  public logIn(email: string, password: string) {
     return this.http.post<IAuthResponseData>(`${environment.apiUrl}/login`, {
       email,
       password
     })
       .pipe(
-          catchError(AuthService.handleError),
-          tap(resData => {
-            this.handleAuthentication(resData.user.name, resData.user.srName, resData.token, resData.user.isAdmin);
-          })
+        catchError(AuthService.handleError),
+        tap(resData => {
+          this.handleAuthentication(resData.user.name, resData.user.srName, resData.token, resData.user.isAdmin);
+        })
       );
   }
 
-  autoLogIn() {
+  public autoLogIn() {
     let user: User;
     const token = Cookies.get('token');
 
@@ -120,25 +99,30 @@ export class AuthService {
     }
   }
 
-  isAuthenticated() {
+  public isAuthenticated() {
     const token = Cookies.get('token');
     return !!token && AuthService.isTokenValid(token);
   }
 
-  isAdmin() {
+  public isAdmin() {
     let isAdmin = false;
+    const userValue = this.user.getValue();
 
-    this.user.subscribe(user => {
-      if (user) {
-        isAdmin = user.isAdmin;
-      }
-    });
+    if (userValue) {
+      isAdmin = userValue.isAdmin;
+    }
     return isAdmin;
   }
 
-  logOut() {
+  public logOut() {
     this.user.next(null);
     Cookies.remove('token');
     this.router.navigate(['/login']);
+  }
+
+  private handleAuthentication(name: string, surname: string, token: string, isAdmin: boolean) {
+    const user = new User(token, name, surname, isAdmin);
+    this.user.next(user);
+    Cookies.set('token', token);
   }
 }

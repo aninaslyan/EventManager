@@ -10,11 +10,11 @@ export class DialogBoxComponent {
   @Output() closeDialog = new EventEmitter<void>();
   @Output() submitDialog = new EventEmitter<void>();
 
-  onCloseDialog() {
+  public dialogCancel() {
     this.closeDialog.emit();
   }
 
-  onOkDialog() {
+  public dialogYes() {
     this.submitDialog.emit();
   }
 }

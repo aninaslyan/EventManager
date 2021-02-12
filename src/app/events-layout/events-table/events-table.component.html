@@ -1,18 +1,16 @@
 <button
-    [routerLink]="['../', 'event', 'create']"
+    [routerLink]="['/event', 'create']"
     class="create-button"
 >Create Event
 </button>
 
 <app-alert
-    *ngIf="showActionAlert"
     [show]="showActionAlert"
     (showChanged)="alertActionShowChanged($event)"
     [alertProps]="{title: actionMessage, color: '#155724', backgroundColor: '#d4edda', closable: true}"
 ></app-alert>
 
 <app-alert
-    *ngIf="showErrorAlert"
     [show]="showErrorAlert"
     (showChanged)="alertErrorShowChanged($event)"
     [alertProps]="{title: errorMessage, color: '#721c24', backgroundColor: '#f8d7da', closable: false}"
@@ -21,7 +19,7 @@
 <table>
     <thead>
     <tr>
-        <th scope="col">Event Name</th>
+        <th scope="col" (click)="orderByField = 'name'">Event Name</th>
         <th scope="col">Event Description</th>
         <th scope="col">Event Date</th>
         <th scope="col">Event Type</th>
@@ -29,14 +27,15 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let event of events">
+    <!-- todo orderBy pipe won't update if any property is changing (is pure)  -->
+    <tr *ngFor="let event of events | orderBy : orderByField">
         <td data-label="Name">{{event.name}}</td>
         <td data-label="Description">{{event.description}}</td>
         <td data-label="Date">{{event.date | date:'MMMM dd, yyyy | hh:mm a'}}</td>
         <td data-label="Type">{{event.eventType}}</td>
         <td data-label="Action">
             <button
-                [routerLink]="['../', 'event', 'edit', event.id]"
+                [routerLink]="['/event', 'edit', event.id]"
                 class="edit-button"
             >Edit
             </button>

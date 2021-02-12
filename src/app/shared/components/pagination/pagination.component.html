@@ -6,7 +6,7 @@
         <li class="page-item">
             <a
                 (click)="onPrevClick()"
-                [ngClass]="{'disabled-a':this.currentPage - 1 < 1}"
+                [ngClass]="{'disabled-a':currentPage - 1 < 1}"
                 class="page-link"
             >&laquo;</a>
         </li>
@@ -23,7 +23,7 @@
         <li class="page-item">
             <a
                 (click)="onNextClick()"
-                [ngClass]="{'disabled-a':this.currentPage >= this.pageNums.length}"
+                [ngClass]="{'disabled-a':currentPage >= pageNums.length}"
                 class="page-link"
             >&raquo;</a>
         </li>

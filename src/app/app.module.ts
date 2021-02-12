@@ -1,48 +1,27 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
-import { DatePipe } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthComponent } from './auth/auth.component';
-import { HeaderComponent } from './header/header.component';
-import { EventsLayoutComponent } from './events-layout/events-layout.component';
-import { EventsGridComponent } from './events-layout/events-grid/events-grid.component';
-import { EventsTableComponent } from './events-layout/events-table/events-table.component';
-import { AuthInterceptorService } from './auth/auth-interceptor.service';
-import { PaginationComponent } from './pagination/pagination.component';
-import { DialogBoxComponent } from './shared/dialog-box/dialog-box.component';
-import { EventFormComponent } from './events-layout/events-table/event-form/event-form.component';
-import { AlertComponent } from './shared/alert/alert.component';
+import { AuthGuard, AuthGuardAdmin, AuthGuardLogin } from './auth/guards';
+
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AuthComponent,
-    HeaderComponent,
-    EventsLayoutComponent,
-    EventsGridComponent,
-    EventsTableComponent,
-    PaginationComponent,
-    DialogBoxComponent,
-    EventFormComponent,
-    AlertComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    CoreModule
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptorService,
-      multi: true
-    },
-    DatePipe
+    AuthGuard,
+    AuthGuardAdmin,
+    AuthGuardLogin
   ],
   bootstrap: [AppComponent]
 })

@@ -1,119 +1,131 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { takeUntil } from 'rxjs/Operators';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Event } from '../event.model';
+import { Event } from '@shared/models';
 import { EventService } from '../event.service';
-import { PaginationService } from '../../pagination/pagination.service';
+import { PaginationService } from '@shared/components/pagination/pagination.service';
+import { WithDestroy } from '@shared/utils';
 
 @Component({
   selector: 'app-events-table',
   templateUrl: './events-table.component.html',
   styleUrls: ['./events-table.component.css']
 })
-export class EventsTableComponent implements OnInit, OnDestroy {
-  events: Event[];
-  eventsSubscription: Subscription;
-  totalCount: number;
-  limit = 10;
-  currentPage = 1;
-  dialogMessage: string;
-  eventId: number;
-  currentPageChangedSubscription: Subscription;
-  // messages
-  actionMessage: string;
-  showActionAlert = false;
-  errorMessage: string;
-  showErrorAlert = false;
+export class EventsTableComponent extends WithDestroy() implements OnInit {
+  public events: Event[];
+  public eventsNotConverted: Event[];
+  public totalCount: number;
+  public limit = 10;
+  public dialogMessage: string;
+  public actionMessage: string;
+  public showActionAlert = false;
+  public errorMessage: string;
+  public showErrorAlert = false;
+  public orderByField: string;
+  private currentPage = 1;
+  private eventId: number;
 
-  constructor(private eventService: EventService,
-              private paginationService: PaginationService,
-              private route: ActivatedRoute,
-              private router: Router) {
-  }
-
-  fetchEventsFollowChanges(pageNum: number) {
-    this.eventService.fetchEventsAndTypes(pageNum, this.limit)
-        .subscribe(response => {
-          console.log('fetch', pageNum);
-          this.totalCount = Number(response[0].headers.get('X-Total-Count'));
-          this.events = this.eventService.getEventTypeFromNumber(response[0].body, response[1]);
-          this.eventsSubscription = this.eventService.eventsChanged
-              .subscribe(evn => {
-                this.events = evn;
-              });
-
-          this.events = this.eventService.getEvents();
-          console.log(this.events);
-        });
-    this.router.navigate([], { queryParams: { page: pageNum } });
+  constructor(
+    private eventService: EventService,
+    private paginationService: PaginationService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    super();
   }
 
   ngOnInit(): void {
-    this.currentPageChangedSubscription = this.paginationService.currentPageChanged
-        .subscribe(currPage => {
-          console.log('currentPageChanged');
-          if (this.currentPage !== currPage) {
-            this.currentPage = currPage;
-            this.fetchEventsFollowChanges(this.currentPage);
-          }
-        });
+    this.subscribingCurrentPageChange();
     // is needed only first time
     this.fetchEventsFollowChanges(this.currentPage);
-
-    // messages
-    this.eventService.eventMessageChanged
-        .subscribe((message: string) => {
-          this.actionMessage = message;
-          this.showActionAlert = true;
-        });
-
-    this.eventService.errorMessageChanged
-        .subscribe((message: string) => {
-          this.errorMessage = message;
-          this.showErrorAlert = true;
-        });
+    this.subscribingMessages();
   }
 
-  onCancel() {
+  public onCancel() {
     this.dialogMessage = null;
   }
 
-  onDelete(id: number) {
+  public onDelete(id: number) {
     this.dialogMessage = 'Are you sure you want to delete this event?';
     this.eventId = id;
   }
 
-  onDeleteSubmit() {
+  public onDeleteSubmit() {
     this.eventService.deleteEventRequest(this.eventId)
-        .subscribe(() => {
-          this.eventService.deleteEventFromList(this.eventId);
-          this.eventService.eventsChanged
-              .subscribe(events => {
-                this.events = events;
-              });
-
-          if (this.events.length === 0) {
-            this.currentPage = this.currentPage - 1;
-          }
-          this.paginationService.currentPageChanged.next(this.currentPage);
-          this.fetchEventsFollowChanges(this.currentPage);
-        });
+      .subscribe(() => {
+          this.deleteEvent();
+      });
     this.dialogMessage = null;
   }
 
-  ngOnDestroy(): void {
-    if (this.eventsSubscription) {
-      this.eventsSubscription.unsubscribe();
-    }
-    this.currentPageChangedSubscription.unsubscribe();
-  }
-
-  alertActionShowChanged(show: boolean) {
+  public alertActionShowChanged(show: boolean) {
     this.showActionAlert = show;
   }
 
-  alertErrorShowChanged(show: boolean) {
+  public alertErrorShowChanged(show: boolean) {
     this.showErrorAlert = show;
+  }
+
+  private fetchEventsFollowChanges(pageNum: number) {
+    this.eventService.fetchEventsAndTypes(pageNum, this.limit)
+      .subscribe(response => {
+        console.log('fetch', pageNum);
+        this.totalCount = Number(response[0].headers.get('X-Total-Count'));
+        this.eventsNotConverted = JSON.parse(JSON.stringify(response[0].body));
+        this.events = this.eventService.getEventTypeFromNumber(response[0].body, response[1]);
+        this.eventService.eventsChanged
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(evn => {
+            this.events = evn;
+          });
+
+        this.events = this.eventService.getEvents();
+        console.log(this.events);
+      });
+    this.router.navigate([], {queryParams: {page: pageNum}});
+  }
+
+  private deleteEvent() {
+    this.eventService.deleteEventFromList(this.eventId);
+    this.eventService.eventsChanged
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(events => {
+        this.events = events;
+      });
+
+    if (this.events.length === 0) {
+      this.currentPage = this.currentPage - 1;
+    }
+    this.paginationService.currentPageChanged.next(this.currentPage);
+    this.fetchEventsFollowChanges(this.currentPage);
+  }
+
+  private subscribingCurrentPageChange() {
+    this.paginationService.currentPageChanged
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(currPage => {
+        console.log('currentPageChanged');
+        if (this.currentPage !== currPage) {
+          this.currentPage = currPage;
+          this.fetchEventsFollowChanges(this.currentPage);
+        }
+      });
+  }
+
+  private subscribingMessages() {
+    this.eventService.eventMessageChanged
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((message: string) => {
+        this.actionMessage = message;
+        this.showActionAlert = true;
+      });
+
+    this.eventService.errorMessageChanged
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((message: string) => {
+        this.errorMessage = message;
+        this.showErrorAlert = true;
+      });
   }
 }

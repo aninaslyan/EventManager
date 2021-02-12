@@ -3,17 +3,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { forkJoin, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { Event } from './event.model';
 import { environment } from '../../environments/environment';
+import { Event } from '@shared/models';
+import { IEventTypes } from '@shared/interfaces';
 
-export interface IEventTypes {
-  value: number;
-  type: string;
-}
-
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class EventService {
   private events: Event[] = [];
   eventsChanged: Subject<Event[]> = new Subject();
@@ -26,28 +20,18 @@ export class EventService {
   constructor(private http: HttpClient) {
   }
 
-  // todo move fetching methods to another EventFetchService service
-  fetchEventsByPage(pageNum: number, limit: number) {
+  fetchEvents(pageNum: number = 0, limit: number = 0) {
     const params = new HttpParams()
-        .set('_page', String(pageNum))
-        .set('_limit', String(limit));
+      .set('_page', String(pageNum))
+      .set('_limit', String(limit));
     return this.http.get<Event[]>(
-        `${environment.apiUrl}/events`,
-        { params, observe: 'response' })
-        .pipe(
-            tap(eventsResp => {
-              this.setEvents(eventsResp.body);
-            })
-        );
-  }
-
-  fetchAllEvents() {
-    return this.http.get<Event[]>(`${environment.apiUrl}/events`)
-        .pipe(
-            tap(events => {
-              this.setEvents(events);
-            })
-        );
+      `${environment.apiUrl}/events`,
+      {params, observe: 'response'})
+      .pipe(
+        tap(eventsResp => {
+          this.setEvents(eventsResp.body);
+        })
+      );
   }
 
   fetchEventById(id: number) {
@@ -82,7 +66,7 @@ export class EventService {
   }
 
   fetchEventsAndTypes(pageNum, limit) {
-    return forkJoin(this.fetchEventsByPage(pageNum, limit), this.fetchEventTypes());
+    return forkJoin(this.fetchEvents(pageNum, limit), this.fetchEventTypes());
   }
 
   deleteEventRequest(id: number) {

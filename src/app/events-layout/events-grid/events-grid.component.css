@@ -1,53 +1,52 @@
-/* todo improve all rem */
 .row {
-    display: flex;
-    justify-content: center;
-    flex-flow: row wrap;
+  display: flex;
+  justify-content: center;
+  flex-flow: row wrap;
 }
 
 .col {
-    margin: 0 2% 4% 3%;
-    text-align: left;
-    max-width: 290px;
+  margin: 0 2% 4% 3%;
+  text-align: left;
+  max-width: 290px;
 }
 
 .card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
-    border: 1px solid rgba(0, 0, 0, .125);
-    border-radius: .25rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, .125);
+  border-radius: .25rem;
 }
 
 .card p {
-    min-height: 120px;
+  min-height: 120px;
 }
 
 .shadow-sm {
-    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+  box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
 }
 
 .card-img-top {
-    border-top-left-radius: calc(.25rem - 1px);
-    border-top-right-radius: calc(.25rem - 1px);
-    max-height: 300px;
-    min-height: 298px;
+  border-top-left-radius: calc(.25rem - 1px);
+  border-top-right-radius: calc(.25rem - 1px);
+  max-height: 300px;
+  min-height: 298px;
 }
 
 .card-body {
-    flex: 1 1 auto;
-    padding: 1.25rem;
+  flex: 1 1 auto;
+  padding: 1.25rem;
 }
 
 .card-title {
-    margin-bottom: .75rem;
+  margin-bottom: .75rem;
 }
 
 .card-subtitle {
-    margin-top: -.375rem;
-    margin-bottom: 1.5rem;
-    color: #6c757d;
+  margin-top: -.375rem;
+  margin-bottom: 1.5rem;
+  color: #6c757d;
 }

@@ -21,25 +21,25 @@ export class AuthComponent implements OnInit {
     this.initForm();
   }
 
+  public onFormSubmit() {
+    const formValue = this.signInForm.value;
+    this.authService.logIn(formValue.email, formValue.password)
+      .subscribe(resData => {
+        this.router.navigate(['/event/grid']);
+      }, error => {
+        this.errorRes = error;
+        this.showErrorAlert = true;
+      });
+  }
+
+  public alertShowChanged(show: boolean) {
+    this.showErrorAlert = show;
+  }
+
   private initForm() {
     this.signInForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, Validators.required)
     });
-  }
-
-  onFormSubmit() {
-    const formValue = this.signInForm.value;
-    this.authService.logIn(formValue.email, formValue.password)
-        .subscribe(resData => {
-          this.router.navigate(['/events-grid']);
-        }, error => {
-          this.errorRes = error;
-          this.showErrorAlert = true;
-        });
-  }
-
-  alertShowChanged(show: boolean) {
-   this.showErrorAlert = show;
   }
 }
