@@ -22,8 +22,7 @@ export class EventsGridComponent implements OnInit {
   }
 
   private getCompleteEvents() {
-    // todo deprecated forkJoin
-    forkJoin(this.eventService.fetchEvents(), this.eventService.fetchEventTypes())
+    forkJoin([this.eventService.fetchRawEvents(), this.eventService.fetchEventTypes()])
       .subscribe(response => {
         this.eventsNotConverted = JSON.parse(JSON.stringify(response[0].body));
         this.events = this.eventService.getEventTypeFromNumber(response[0].body, response[1]);

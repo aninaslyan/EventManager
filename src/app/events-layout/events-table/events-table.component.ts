@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/Operators';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HttpResponse } from '@angular/common/http';
 
 import { Event } from '@shared/models';
 import { EventService } from '../event.service';
 import { PaginationService } from '@shared/components/pagination/pagination.service';
 import { WithDestroy } from '@shared/utils';
+import { IEventTypes } from '@shared/interfaces';
 
 @Component({
   selector: 'app-events-table',
@@ -68,9 +70,8 @@ export class EventsTableComponent extends WithDestroy() implements OnInit {
   }
 
   private fetchEventsFollowChanges(pageNum: number) {
-    this.eventService.fetchEventsAndTypes(pageNum, this.limit)
-      .subscribe(response => {
-        console.log('fetch', pageNum);
+    this.eventService.fetchEventsAndTypes(this.eventService.fetchRawEvents(pageNum, this.limit), this.eventService.fetchEventTypes())
+      .subscribe((response: [HttpResponse<Event[]>, IEventTypes[]]) => {
         this.totalCount = Number(response[0].headers.get('X-Total-Count'));
         this.eventsNotConverted = JSON.parse(JSON.stringify(response[0].body));
         this.events = this.eventService.getEventTypeFromNumber(response[0].body, response[1]);

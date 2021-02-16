@@ -20,7 +20,7 @@ export class EventService {
   constructor(private http: HttpClient) {
   }
 
-  fetchEvents(pageNum: number = 0, limit: number = 0) {
+  fetchRawEvents(pageNum: number = 0, limit: number = 0) {
     const params = new HttpParams()
       .set('_page', String(pageNum))
       .set('_limit', String(limit));
@@ -65,8 +65,8 @@ export class EventService {
     return events;
   }
 
-  fetchEventsAndTypes(pageNum, limit) {
-    return forkJoin(this.fetchEvents(pageNum, limit), this.fetchEventTypes());
+  fetchEventsAndTypes(events, types) {
+    return forkJoin([events, types]);
   }
 
   deleteEventRequest(id: number) {
